@@ -1,7 +1,7 @@
 # ModClean
 *Remove unwanted files and directories from your node_modules folder*
 
-[![Build Status](https://travis-ci.org/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean)
+[![npm version](https://badge.fury.io/js/modclean.svg)](http://badge.fury.io/js/modclean) [![Build Status](https://travis-ci.org/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean)
 
 In some environments (especially Enterprise), it's required to commit the `node_modules` folder into version control due to compatibility and vetting open source code. One of the major issues with this is the sheer amount of useless files that are littered through the node_modules folder; taking up space, causing long commit/checkout times, increasing latency on the network, causing additional stress on a CI server, etc. If you think about it, do you really need to deploy tests, examples, build files, attribute files, etc? ModClean is a simple utility that provides a full API and CLI utility to reduce the number of useless files. Even if you do not commit your node_modules folder, this utility is still useful when the application is deployed since you do not need these useless files wasting precious disk space on your server.
 
