@@ -1,0 +1,288 @@
+# ModClean
+*Remove unwanted files and directories from your node_modules folder*
+
+[![Build Status](https://travis-ci.org/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean)
+
+In some environments (especially Enterprise), it's required to commit the `node_modules` folder into version control due to compatibility and vetting open source code. One of the major issues with this is the sheer amount of useless files that are littered through the node_modules folder; taking up space, causing long commit/checkout times, increasing latency on the network, causing additional stress on a CI server, etc. If you think about it, do you really need to deploy tests, examples, build files, attribute files, etc? ModClean is a simple utility that provides a full API and CLI utility to reduce the number of useless files. Even if you do not commit your node_modules folder, this utility is still useful when the application is deployed since you do not need these useless files wasting precious disk space on your server.
+
+Depending on the number of modules you are using, file reduction can be anywhere from hundreds to thousands. I work for a Fortune 500 company and we use this to reduce the amount of useless files and typically we remove over 500 files (roughly 100MB total) from our ~20 modules we use in our applications. It's a huge improvement in deployment time and commit/checkout time.
+
+This module comes with a JSON file (patterns.json) that outlines file patterns that searched for through the node_modules folder recursively. This list is a basic list of commonly found files/folders within various node_modules that are junk, although it's by no means a complete list. Even though this is the default list, you can provide your own list of patterns to use instead.
+
+**IMPORTANT**
+This module has been heavily tested in an enterprise environment used for large enterprise applications. The provided patterns in this module (see patterns.json) have worked very well when cleaning up useless files in many popular modules. There are hundreds of thousands of modules in NPM and we cannot simply cover them all. If you are using ModClean for the first time on your application, you should create a copy of the application so you can ensure it still runs properly after running ModClean. The patterns are set in a way to ensure no crutial module files are removed, although there could be one-off cases where a module could be affected and that's why I am stressing that testing and backups are important. There could still be many useless files left after the cleanup process since we cannot cover them all. If you find any files that should be removed, please create a pull request using the contributing guidelines at the bottom of this file.
+
+### Removal Benchmark
+So how well does this module work? If we `npm install sails` and run ModClean on it, here are the results:
+
+|                 | Total Files | Total Folders | Total Size  |
+| --------------- | ----------- | ------------- | ----------- |
+| Before ModClean | 7,383       | 1,891         | 72.0 MB     |
+| After ModClean  | 3,421       | 1,377         | 43.9 MB     |
+| Reduced         | **3,962**   | **514**       | **28.1 MB** |
+
+That makes a huge difference in the amount of files and disk space.
+
+
+## Install
+
+Install locally
+
+    npm install modclean --save
+
+Install globally (CLI)
+
+    npm install modclean -g
+
+
+## CLI Usage
+If you want to use this module as a tool, you can use the provided CLI utility. After installing globally, you will now have access to the command `modclean`. There are several options available to customize how it should run. All options listed below are optional.
+
+### Usage
+
+    modclean [-tsievrhV] [-p path]
+
+#### -p [path], --path [path]
+Provide a different path to run ModClean in. By default, it uses `process.cwd()`. The path **must** either be inside a `node_modules` directory or in a directory that contains a `node_modules` folder.
+
+#### -t, --test
+Run in test mode which will do everything ModClean does except delete the files. It's good practice to run this first to analyze the files that will be deleted.
+
+#### -s, --case-sensitive
+When files are searched, they are searched using case sensitive matching. (ex. `README.md` pattern would not match `readme.md` files)
+
+#### -i, --interactive
+Run in interactive mode. For each file found, you will be prompted whether you want to delete or skip.
+
+#### -e, --error-halt
+Whether to halt the process when an error is encountered. The process is only halted when there is an issue deleting a file due to permissions or some other catastrophic issue.
+
+#### -v, --verbose
+Runs in verbose mode. This will display much more information during the process.
+
+#### -r, --run
+Run the utility immediately without displaying the warning and having to confirm.
+
+#### -h, --help
+Show help/usage screen.
+
+#### -V, --version
+Display the version of ModClean that is installed.
+
+---
+
+## API Documentation
+You can also use ModClean programmically so you can include it into your own utilities and customize how it works. Just install ModClean locally to your project.
+
+### Examples
+
+    // Require modclean module
+    var modclean = require('modclean');
+
+Run the basic ModClean process with a callback function when completed.
+
+    modclean(function(err, results) {
+        if(err) return console.error(err);
+        
+        console.log('Deleted Files Total:', results.length);
+    });
+
+Run the basic ModClean process with conditional file skipping.
+
+    modclean({
+        process: function(file, files) {
+            // Skip .gitignore files
+            if(file.match(/\.gitignore/i)) {
+                return false;
+            }
+            
+            return true;
+        }
+    }).clean(function(err, results) {
+        if(err) return console.error(err);
+        
+        console.log('Deleted Files Total:', results.length);
+    });
+
+More advanced usage.
+
+    var path = require('path');
+    
+    var MC = new modclean.ModClean({
+        // Define a custom path
+        cwd: path.join(process.cwd(), 'myApp/node/node_modules'),
+        // Only delete markdown, .gitignore and .npmignore files
+        patterns: ['*.md', '.gitignore', '.npmignore'],
+        // Run in test mode so no files are deleted
+        test: true
+    });
+    
+    MC.on('deleted', function(file) {
+        // For every file deleted, log it
+        console.log((MC.options.test? 'TEST' : ''), file, 'deleted from filesystem');
+    });
+    
+    // Run the cleanup process without using the 'clean' function
+    MC._find(null, function(err, files) {
+        if(err) return console.error('Error while searching for files', err);
+        
+        MC._process(files, function(err, results) {
+            if(err) return console.error('Error while processing files', err);
+            
+            console.log('Deleted Files Total:', results.length);
+        });
+    });
+
+### Options
+The options below can be used to modify how ModClean works.
+
+#### cwd
+*(String)* **Default:** `process.cwd()`  
+The path in which ModClean should recursively search through to find files to remove. If the path does not end with `options.modulesDir`, it will be appended to the path, allowing this script to run in the parent directory.
+
+#### patterns
+*(Array)* **Default** `require('./patterns.json')` (see patterns.json file)  
+Patterns to use as part of the search. These patterns are concatenated into a regex string and passed into `glob`. Anything allowed in `glob` can be used in the patterns.
+
+#### ignoreCase
+*(Boolean)* **Default** `true`  
+Whether `glob` should ignore the case of the file names when searching. If you need to do strict searching, set this to `false`.
+
+#### process
+*(Function)* **Default:** `null`  
+Optional function to call before each file is deleted. This function can be used asynchronously or synchronously depending on the number of parameters provided. If the provided function has 1 or 2 parameters `function(file, files)`, it is synchronous, if it has 3 parameters `function(file, files, cb)`, it is asynchronous. When sync, you can `return false` to skip the current file being processed, otherwise when async, you can call the callback function `cb(false)` to skip the file. The **file** parameter is the current path with the filename appened of the file being processed. The **files** parameter is the full array of all the files.
+
+#### modulesDir
+*(String|Boolean)* **Default:** `"node_modules"`  
+The modules directory name to use when looking for modules. This is only used when setting the correct `options.cwd` path. If you do not want the modules directory to be appended to `options.cwd`, set this option to `false`. If `options.cwd` already ends with the value of this option, it will not be appended to the path.
+
+#### errorHalt
+*(Boolean)* **Default:** `false`  
+Whether the script should exit with a filesystem error if one is encountered. This really only pertains to systems with complex permissions or Windows filesystems. The `rimraf` module will only throw an error if there is actually an issue deleting an existing file. If the file doesn't exist, it does not throw an error.
+
+#### test
+*(Boolean)* **Default:** `false`  
+Whether to run in test mode. If set to `true` everything will run (including all events), although the files will not actually be deleted from the filesystem. This is useful when you need to analyze the files to be deleted before actually deleting them.
+
+
+### Methods and Properties
+These are the methods and properties returned when calling `var modclean = require('modclean');`.
+
+#### modclean([options][,cb])
+Create a new `ModClean` instance. It's the same as calling `new modclean.ModClean()`. If a callback function is provided, it will automatically call the `clean()` method and therefore `clean()` should not be called manually. If you need to set event listeners, set the callback function in the `clean()` method instead.
+
+**options** *(Object)* - Options to configure how ModClean works. (Optional)
+**cb** *(Function)* - Callback function to call once the process is completed `function(err, results)`. The `results` parameter contains an array of all the files that were successfully remove from the filesystem.
+
+#### modclean.defaults
+*(Object)* - The default options used in all created ModClean instances. You may change the defaults at anytime if you will be creating multiple instances that need to use the same options.
+
+#### modclean.ModClean([options][,cb])
+Create instance of the `ModClean` class. The parameters are the same as `modclean()`. The only difference between this and `modclean()` is that this must be called with `new`.
+
+    var modclean = require('modclean');
+    
+    // Create new instance
+    var MC = new modclean.ModClean();
+
+#### modclean.ModClean().clean([cb])
+Runs the ModClean process. Only needs to be called if a callback function is not provided to `modclean.ModClean()`.
+
+**cb** *(Function)* - Callback function to call once the process is completed `function(err, results)`. The `results` parameter contains an array of all the files that were successfully remove from the filesystem.
+
+#### modclean.ModClean()._find(patterns, cb)
+Internally used by ModClean to search for files based on the provided patterns.
+
+**patterns** *(Array|null)* - Patterns to use for the search process. If set to `null`, it will default to `options.patterns`.
+**cb** *(Function)* - Callback function to call once the search process is completed with an array of file paths `function(err, files)`.
+
+#### modclean.ModClean()._process(files, cb)
+Internally used by ModClean to process each of the files. The processing includes running `options.process` and then calling `ModClean()._deleteFile()`.
+
+**files** *(Array)* - Array of file paths to process and send for deletion.
+**cb** *(Function)* - Callback function to call once processing and deletion is complete `function(err, results)`. The results parameter contains an array of files that were successfully deleted (does not include skipped files).
+
+#### modclean.ModClean()._deleteFile(file, cb)
+Internally used by ModClean to delete a file at the given path.
+
+**file** *(String)* - File path to be deleted. Should not include `options.cwd` as it will be prepended.
+**cb** *(String)* - Callback function to be called once the file is deleted `function(err, file)`. The callback will not receive an error if `options.errorHalt = false`.
+
+#### modclean.ModClean().options
+Compiled options object used by the ModClean instance.
+
+#### modclean.ModClean().on(event, fn)
+Creates an event handler on the ModClean instance.
+
+**event** *(String)* - Any of the event names the are listed in the events section below.
+**fn** *(Function)* - Function to call when the specified event is emitted.
+
+
+### Events
+The following events are emitted from the `ModClean` instance.
+
+#### start
+Emitted at the beginning of `clean()`.
+
+**inst** *(Object)* - Provides access to the current ModClean instance.
+
+#### files
+Emitted once a list of all found files has been compiled from the `_find()` method.
+
+**files** *(Array)* - Array of file paths found.
+
+#### deleted
+Emitted each time a file has been deleted from the file system by the `_deleteFile()` method.
+
+**file** *(String)* - The file path that has been deleted.
+
+#### finish
+Emitted once processing and deletion of files has completed by the `_process()` method.
+
+**results** *(Array)* - List of file paths that were successfully deleted from the file system (not including skipped files).
+
+#### complete
+Emitted once the entire ModClean process has completed before calling the main callback function.
+
+**err** *(Object|String|null)* - Error (if any) that was thrown during the process.
+**results** *(Array)* - List of file paths that were successfully deleted from the file system (not including skipped files).
+
+#### fileError
+Emitted if there was an error thrown while deleting a file/folder. Will emit even if `options.errorHalt = false`.
+
+**err** *(Object|String)* - Error thrown by `rimraf`.
+**file** *(String)* - File path of the file/folder that caused the error.
+
+#### error
+Emitted if there was an error thrown somewhere in the module.
+
+**err** *(Object|String)* - The error that was thrown.
+
+---
+
+## Tests
+This module has a good number of tests written for it that should cover most (if not all cases). If you would like to run the tests, please install `mocha` globally and install the `devDependencies` for this module. You can run the tests by calling `npm test`. The tests are ran using this modules own `node_modules` folder.
+
+---
+
+## Issues
+If you find any bugs with either ModClean or the CLI Utility, please feel free to open an issue. Any feature requests may also be poseted in the issues.
+
+---
+
+## Contributing
+If you would like to contribute to this project, please ensure you follow the guidelines below:
+
+### Code Style
+I'm not very picky on the code style as long as it roughly follows what is currently written in the modules. Just ensure that lines that should end with semi-colons do end with them. Comments are also very helpful for future contributors to know what's going on.
+
+### Run Tests
+If you are making a code change, please run the tests and ensure they pass before submitting a pull request. If you are adding new functionality, please ensure to write the tests for it.
+
+### Patterns.json Changes
+In case there are file patterns that were missed and this module could clean up additional files, feel free to submit a pull request adding the pattern. I will not accept pull reuqests that use wildcards on `.js` or `.json` files. If you notice a pattern that is causing issues with a particular module, submit a pull request or issue.
+
+---
+
+## License
+ModClean is licensed under the MIT license. Please see LICENSE in the repository for the full text.
