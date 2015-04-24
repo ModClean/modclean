@@ -15,14 +15,34 @@ This module has been heavily tested in an enterprise environment used for large 
 ### Removal Benchmark
 So how well does this module work? If we `npm install sails` and run ModClean on it, here are the results:
 
+#### Using Safe Patterns
+`modclean -n safe`
+
 |                 | Total Files | Total Folders | Total Size  |
 | --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 7,383       | 1,891         | 72.0 MB     |
-| After ModClean  | 3,421       | 1,377         | 43.9 MB     |
-| Reduced         | **3,962**   | **514**       | **28.1 MB** |
+| Before ModClean | 7,461       | 1,915         | 72.5 MB     |
+| After ModClean  | 3,335       | 1,393         | 43.5 MB     |
+| Reduced         | **4,126**   | **522**       | **29.0 MB** |
+
+#### Using Safe and Caution Patterns
+`modclean -n safe,caution`
+
+|                 | Total Files | Total Folders | Total Size  |
+| --------------- | ----------- | ------------- | ----------- |
+| Before ModClean | 7,461       | 1,915         | 72.5 MB     |
+| After ModClean  | 3,029       | 1,393         | 38.8 MB     |
+| Reduced         | **4,432**   | **522**       | **33.7 MB** |
+
+#### Using Safe, Caution and Danger Patterns
+`modclean -n safe,caution,danger`
+
+|                 | Total Files | Total Folders | Total Size  |
+| --------------- | ----------- | ------------- | ----------- |
+| Before ModClean | 7,461       | 1,915         | 72.5 MB     |
+| After ModClean  | 2,957       | 1,393         | 35.9 MB     |
+| Reduced         | **4,504**   | **522**       | **36.6 MB** |
 
 That makes a huge difference in the amount of files and disk space.
-
 
 ## Install
 
@@ -44,6 +64,10 @@ If you want to use this module as a tool, you can use the provided CLI utility. 
 
 #### -p [path], --path [path]
 Provide a different path to run ModClean in. By default, it uses `process.cwd()`. The path **must** either be inside a `node_modules` directory or in a directory that contains a `node_modules` folder.
+
+#### -n, --patterns [patterns]
+Specify which group(s) of patterns to use. Can be `safe`, `caution` or `danger`. Separate multiple groups by a single comma (no spaces). Default is `safe`. 
+Example: `modclean -n safe,caution`
 
 #### -t, --test
 Run in test mode which will do everything ModClean does except delete the files. It's good practice to run this first to analyze the files that will be deleted.
@@ -111,8 +135,8 @@ More advanced usage.
     var MC = new modclean.ModClean({
         // Define a custom path
         cwd: path.join(process.cwd(), 'myApp/node/node_modules'),
-        // Only delete markdown, .gitignore and .npmignore files
-        patterns: ['*.md', '.gitignore', '.npmignore'],
+        // Only delete patterns.safe patterns along with html and png files
+        patterns: [modclean.patterns.safe, '*.html', '*.png'],
         // Run in test mode so no files are deleted
         test: true
     });
@@ -141,8 +165,8 @@ The options below can be used to modify how ModClean works.
 The path in which ModClean should recursively search through to find files to remove. If the path does not end with `options.modulesDir`, it will be appended to the path, allowing this script to run in the parent directory.
 
 #### patterns
-*(Array)* **Default** `require('./patterns.json')` (see patterns.json file)  
-Patterns to use as part of the search. These patterns are concatenated into a regex string and passed into `glob`. Anything allowed in `glob` can be used in the patterns.
+*(Array)* **Default** `modclean.patterns.safe` (see patterns.json file)  
+Patterns to use as part of the search. These patterns are concatenated into a regex string and passed into `glob`. Anything allowed in `glob` can be used in the patterns. This option can also be an array of arrays in which will be flattened.
 
 #### ignoreCase
 *(Boolean)* **Default** `true`  
@@ -176,6 +200,9 @@ Create a new `ModClean` instance. It's the same as calling `new modclean.ModClea
 
 #### modclean.defaults
 *(Object)* - The default options used in all created ModClean instances. You may change the defaults at anytime if you will be creating multiple instances that need to use the same options.
+
+#### modclean.patterns
+*(Object)* - The full list of patterns provided in `patterns.json`. This returns 3 properties (`safe`, `caution`, `danger`) which determines the level of file removal.
 
 #### modclean.ModClean([options][,cb])
 Create instance of the `ModClean` class. The parameters are the same as `modclean()`. The only difference between this and `modclean()` is that this must be called with `new`.
@@ -280,7 +307,7 @@ I'm not very picky on the code style as long as it roughly follows what is curre
 If you are making a code change, please run the tests and ensure they pass before submitting a pull request. If you are adding new functionality, please ensure to write the tests for it.
 
 ### Patterns.json Changes
-In case there are file patterns that were missed and this module could clean up additional files, feel free to submit a pull request adding the pattern. I will not accept pull reuqests that use wildcards on `.js` or `.json` files. If you notice a pattern that is causing issues with a particular module, submit a pull request or issue.
+In case there are file patterns that were missed and this module could clean up additional files, feel free to submit a pull request adding the pattern. I will not accept pull reuqests that use wildcards on `.js` or `.json` files. If you notice a pattern that is causing issues with a particular module, submit a pull request or issue. There are 3 sections to the `patterns.json` file: (`safe`, `caution` and `danger`). Each of these sections determine the level of files to remove which includes additional patterns that match file/folder names. Safe patterns contain absolutely useless files that can be safely removed whereas caution and danger patterns are ones in which could cause issues with certain modules but will help significantly clean up more files.
 
 ---
 
