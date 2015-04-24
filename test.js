@@ -10,26 +10,6 @@ var should = require('should'),
     path = require('path'),
     modclean = require('./index.js');
 
-describe('patterns', function() {
-    var patterns;
-    
-    before('load patterns.json', function() {
-        patterns = require('./patterns.json');
-    });
-    
-    it('should be an array', function() {
-        patterns.should.be.an.Array;
-    });
-    
-    it('should have items', function() {
-        patterns.length.should.be.greaterThan(10);
-    });
-    
-    it('shouldn\'t have any .js patterns', function() {
-        patterns.should.not.matchAny(/\.js$/i);
-    });
-});
-
 describe('modclean', function() {
     it('should be a function', function() {
         modclean.should.be.a.Function;
@@ -51,7 +31,44 @@ describe('modclean', function() {
         });
         
         it('should contain patterns from patterns.json', function() {
-            modclean.defaults.patterns.should.be.exactly(patterns);
+            modclean.defaults.patterns.should.match(patterns.safe);
+        });
+    });
+    
+    describe('patterns', function() {
+        var patterns;
+        
+        before('load patterns.json', function() {
+            patterns = require('./patterns.json');
+        });
+        
+        it('should be an object', function() {
+            modclean.patterns.should.be.an.instanceOf(Object);
+        });
+        
+        it('should contain patterns from patterns.json', function() {
+            modclean.patterns.should.match(patterns);
+        });
+        
+        describe('safe', function() {
+            it('should contain patterns', function() {
+                modclean.patterns.should.have.property('safe');
+                modclean.patterns.safe.length.should.be.greaterThan(0);
+            });
+        });
+        
+        describe('caution', function() {
+            it('should contain patterns', function() {
+                modclean.patterns.should.have.property('caution');
+                modclean.patterns.caution.length.should.be.greaterThan(0);
+            });
+        });
+        
+        describe('danger', function() {
+            it('should contain patterns', function() {
+                modclean.patterns.should.have.property('danger');
+                modclean.patterns.danger.length.should.be.greaterThan(0);
+            });
         });
     });
     
@@ -107,8 +124,19 @@ describe('ModClean instance', function() {
                 });
             });
             
-            if('should have custom patterns', function() {
-                MC.options.patterns.should.equal(customPatterns);
+            it('should have custom patterns', function() {
+                MC.options.patterns.should.match(customPatterns);
+            });
+            
+            it('should flatten array of arrays for patterns', function() {
+                var _patterns = [];
+                _patterns = _patterns.concat(modclean.patterns.safe, modclean.patterns.caution);
+                
+                var MC = new modclean.ModClean({
+                    patterns: [modclean.patterns.safe, modclean.patterns.caution]
+                });
+                
+                MC.options.patterns.should.match(_patterns);
             });
                 
             it('should ignore case', function() {
