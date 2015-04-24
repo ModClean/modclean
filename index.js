@@ -22,7 +22,7 @@ var defaults     = {
      * Patterns to search for, default is an array loaded from `patterns.json`
      * @type {Array}
      */
-    patterns:   patterns,
+    patterns:   patterns.safe,
     /**
      * Ignore the case of the file names when searching by patterns (default `true`)
      * @type {Boolean}
@@ -71,6 +71,12 @@ function modclean(options, cb) {
  */
 modclean.defaults = defaults;
 
+/**
+ * The full list of patterns from patterns.json
+ * @property {Object} patterns `safe`, `caution` and `danger` patterns from patterns.json
+ */
+modclean.patterns = patterns;
+
 // Export ModClean class
 modclean.ModClean = ModClean;
 
@@ -89,6 +95,19 @@ function ModClean(options, cb) {
     
     this.options = options = extend(Object.create(modclean.defaults), options || {});
     if(typeof this.options.patterns === 'string') this.options.patterns = [this.options.patterns];
+    
+    if(Array.isArray(this.options.patterns)) {
+        var _patterns = [];
+        for(var i = 0; i < this.options.patterns.length; i++) {
+            if(Array.isArray(this.options.patterns[i])) {
+                _patterns = _patterns.concat(this.options.patterns[i]);
+            } else {
+                _patterns.push(this.options.patterns[i]);
+            }
+        }
+        
+        this.options.patterns = _patterns;
+    }
     
     if(this.options.modulesDir !== false && path.basename(this.options.cwd) !== this.options.modulesDir) 
         this.options.cwd = path.join(this.options.cwd, this.options.modulesDir);
