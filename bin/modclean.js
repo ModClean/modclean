@@ -7,7 +7,8 @@ var program  = require('commander'),
     notifier = require('update-notifier')({ pkg: pkg }),
     path     = require('path'),
     os       = require('os'),
-    ModClean = require('../index.js').ModClean,
+    modclean = require('../index.js'),
+    ModClean = modclean.ModClean,
     pkg      = require('../package.json');
 
 if(notifier.update) notifier.notify();
@@ -23,6 +24,7 @@ program
     .option('-e, --error-halt', 'Halt script on error')
     .option('-v, --verbose', 'Run in verbose mode')
     .option('-r, --run', 'Run immediately without warning')
+    .option('-n, --patterns [patterns]', 'Patterns type(s) to remove (safe, caution, or danger)')
     .parse(process.argv);
 
 var ui = new inquirer.ui.BottomBar();
@@ -63,7 +65,8 @@ if(!program.run && !program.test) {
 function ModCleanCLI(opts) {
     if(!(this instanceof ModCleanCLI)) return new ModCleanCLI(opts);
     
-    var self = this;
+    var self = this,
+        _patterns = [];
     
     this.current = 0;
     this.skipped = [];
@@ -71,8 +74,18 @@ function ModCleanCLI(opts) {
     this.argv = opts;
     this.os = os.platform();
     
+    if(opts.patterns) {
+        var patts = opts.patterns.split(',');
+        
+        for(var i = 0; i < patts.length; i++) {
+            if(modclean.patterns.hasOwnProperty(patts[i].toLowerCase())) 
+                _patterns.push(modclean.patterns[patts[i].toLowerCase()]);
+        }
+    }
+    
     this.options = {
         cwd: opts.path || process.cwd(),
+        patterns: _patterns.length? _patterns : modclean.patterns.safe,
         errorHalt: !!opts.errorHalt,
         test: !!opts.test,
         process: function(file, files, cb) {
