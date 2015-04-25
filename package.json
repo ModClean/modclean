@@ -1,44 +1,1 @@
-{
-  "name": "modclean",
-  "version": "1.1.0",
-  "description": "Remove unwanted files and directories from your node_modules folder",
-  "main": "index.js",
-  "bin": {
-    "modclean": "./bin/modclean.js"
-  },
-  "scripts": {
-    "test": "npm install && mocha test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/KyleRoss/modclean"
-  },
-  "keywords": [
-    "module",
-    "cleanup",
-    "clean",
-    "module-cleanup",
-    "node_modules",
-    "delete",
-    "files",
-    "folders"
-  ],
-  "author": "Kyle Ross",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/KyleRoss/modclean/issues"
-  },
-  "homepage": "https://github.com/KyleRoss/modclean",
-  "dependencies": {
-    "colors": "^1.0.3",
-    "commander": "^2.8.0",
-    "glob": "^5.0.5",
-    "inquirer": "^0.8.2",
-    "rimraf": "^2.3.2",
-    "update-notifier": "^0.3.2"
-  },
-  "devDependencies": {
-    "mocha": "^2.2.4",
-    "should": "^6.0.1"
-  }
-}
+{  "name": "modclean",  "version": "1.1.1",  "description": "Remove unwanted files and directories from your node_modules folder",  "main": "index.js",  "bin": {    "modclean": "./bin/modclean.js"  },  "scripts": {    "test": "npm install && mocha test.js"  },  "repository": {    "type": "git",    "url": "https://github.com/KyleRoss/modclean"  },  "keywords": [    "module",    "cleanup",    "clean",    "module-cleanup",    "node_modules",    "delete",    "files",    "folders"  ],  "author": "Kyle Ross",  "license": "MIT",  "bugs": {    "url": "https://github.com/KyleRoss/modclean/issues"  },  "homepage": "https://github.com/KyleRoss/modclean",  "dependencies": {    "colors": "^1.0.3",    "commander": "^2.8.0",    "glob": "^5.0.5",    "inquirer": "^0.8.2",    "rimraf": "^2.3.2",    "update-notifier": "^0.3.2"  },  "devDependencies": {    "mocha": "^2.2.4",    "should": "^6.0.1"  }}
