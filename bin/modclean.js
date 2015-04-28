@@ -25,6 +25,7 @@ program
     .option('-v, --verbose', 'Run in verbose mode')
     .option('-r, --run', 'Run immediately without warning')
     .option('-n, --patterns [patterns]', 'Patterns type(s) to remove (safe, caution, or danger)')
+    .option('-d, --empty', 'Remove empty directories')
     .parse(process.argv);
 
 var ui = new inquirer.ui.BottomBar();
@@ -87,6 +88,7 @@ function ModCleanCLI(opts) {
         cwd: opts.path || process.cwd(),
         patterns: _patterns.length? _patterns : modclean.patterns.safe,
         errorHalt: !!opts.errorHalt,
+        removeEmptyDirs: !!opts.empty,
         test: !!opts.test,
         process: function(file, files, cb) {
             self.current += 1;

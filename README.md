@@ -1,7 +1,7 @@
 # ModClean
 *Remove unwanted files and directories from your node_modules folder*
 
-[![npm version](https://badge.fury.io/js/modclean.svg)](http://badge.fury.io/js/modclean) [![Build Status](https://travis-ci.org/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean)
+[![npm version](https://img.shields.io/npm/v/modclean.svg)](https://www.npmjs.com/package/modclean) [![Build Status](https://img.shields.io/travis/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean) ![NPM Dependencies](https://david-dm.org/KyleRoss/modclean.svg) [![NPM Downloads](https://img.shields.io/npm/dm/modclean.svg)](https://www.npmjs.com/package/modclean) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KyleRoss/modclean/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/KyleRoss/modclean.svg)](https://github.com/KyleRoss/modclean/issues)
 
 In some environments (especially Enterprise), it's required to commit the `node_modules` folder into version control due to compatibility and vetting open source code. One of the major issues with this is the sheer amount of useless files that are littered through the node_modules folder; taking up space, causing long commit/checkout times, increasing latency on the network, causing additional stress on a CI server, etc. If you think about it, do you really need to deploy tests, examples, build files, attribute files, etc? ModClean is a simple utility that provides a full API and CLI utility to reduce the number of useless files. Even if you do not commit your node_modules folder, this utility is still useful when the application is deployed since you do not need these useless files wasting precious disk space on your server.
 
@@ -44,6 +44,8 @@ So how well does this module work? If we `npm install sails` and run ModClean on
 
 That makes a huge difference in the amount of files and disk space.
 
+View additional benchmarks in [BENCHMARK.md](https://github.com/KyleRoss/modclean/blob/master/BENCHMARK.md). If you would like to run some of your own benchmarks, you can use [modclean-benchmark](https://github.com/KyleRoss/modclean-benchmark).
+
 ## Install
 
 Install locally
@@ -77,6 +79,9 @@ When files are searched, they are searched using case sensitive matching. (ex. `
 
 #### -i, --interactive
 Run in interactive mode. For each file found, you will be prompted whether you want to delete or skip.
+
+#### -d, --empty
+Delete all empty directories after the cleanup process. Does not prompt for deletion when in `--interactive` mode.
 
 #### -e, --error-halt
 Whether to halt the process when an error is encountered. The process is only halted when there is an issue deleting a file due to permissions or some other catastrophic issue.
@@ -180,6 +185,10 @@ Optional function to call before each file is deleted. This function can be used
 *(String|Boolean)* **Default:** `"node_modules"`  
 The modules directory name to use when looking for modules. This is only used when setting the correct `options.cwd` path. If you do not want the modules directory to be appended to `options.cwd`, set this option to `false`. If `options.cwd` already ends with the value of this option, it will not be appended to the path.
 
+#### removeEmptyDirs
+*(Boolean)* **Default:** `true`
+Whether to remove empty directories after the cleanup process. This is usually a safe option to use.
+
 #### errorHalt
 *(Boolean)* **Default:** `false`  
 Whether the script should exit with a filesystem error if one is encountered. This really only pertains to systems with complex permissions or Windows filesystems. The `rimraf` module will only throw an error if there is actually an issue deleting an existing file. If the file doesn't exist, it does not throw an error.
@@ -233,7 +242,12 @@ Internally used by ModClean to process each of the files. The processing include
 Internally used by ModClean to delete a file at the given path.
 
 **file** *(String)* - File path to be deleted. Should not include `options.cwd` as it will be prepended.
-**cb** *(String)* - Callback function to be called once the file is deleted `function(err, file)`. The callback will not receive an error if `options.errorHalt = false`.
+**cb** *(Function)* - Callback function to be called once the file is deleted `function(err, file)`. The callback will not receive an error if `options.errorHalt = false`.
+
+#### modclean.ModClean()._removeEmpty(cb)
+Internally used by ModClean to delete all empty directories within `options.cwd`.
+
+**cb** *(Function)* - Callback function to be called once all empty directories have been deleted `function(err, results)`.
 
 #### modclean.ModClean().options
 Compiled options object used by the ModClean instance.

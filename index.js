@@ -1,15 +1,17 @@
 /**
  * modclean
  * Remove unwanted files and directories from your node_modules folder
- * @version 1.0.0 (4/20/2015)
+ * @version 1.2.0 (4/28/2015)
  * @author Kyle Ross
  */
 
 var glob         = require('glob'),
     rimraf       = require('rimraf'),
     util         = require("util"),
+    fs           = require('fs'),
     EventEmitter = require("events").EventEmitter,
     path         = require('path'),
+    dir          = require('node-dir'),
     patterns     = require('./patterns.json');
     
 var defaults     = {
@@ -40,6 +42,11 @@ var defaults     = {
      * @type {String}
      */
     modulesDir: 'node_modules',
+    /**
+     * Remove empty directories as part of the cleanup process (default `true`)
+     * @type {Boolean}
+     */
+    removeEmptyDirs: true,
     /**
      * Whether file deletion errors should halt the module from running and return the error to the callback (default `false`)
      * @type {Boolean}
@@ -146,7 +153,13 @@ ModClean.prototype.clean = function(cb) {
         if(err) return self.finalCallback(err);
         
         self._process(files, function(err, results) {
-            self.finalCallback(err, results);
+            if(err) return self.finalCallback(err);
+            
+            if(self.options.removeEmptyDirs) {
+                self._removeEmpty(function(e, res) {
+                    self.finalCallback(e, results.concat(res));
+                });
+            } else self.finalCallback(err, results);
         });
     });
 };
@@ -179,7 +192,7 @@ ModClean.prototype._find = function(patterns, cb) {
 
 /**
  * Processes a list of files
- * @private
+ * @protected
  * @param  {Array}    files List of files to process
  * @param  {Function} cb    Callback function to call once completed or if error
  */
@@ -214,6 +227,7 @@ ModClean.prototype._process = function(files, cb) {
 
 /**
  * Deletes file/folder at given path
+ * @protected
  * @param  {String}   file The file/folder path to delete
  * @param  {Function} cb   Callback function to call when complete or error
  */
@@ -246,6 +260,49 @@ ModClean.prototype._deleteFile = function(file, cb) {
     });
 };
 
+/**
+ * Remove empty directories from `options.cwd`.
+ * @protected
+ * @param  {Function} cb Callback function to call when completed `function(err)`.
+ */
+ModClean.prototype._removeEmpty = function(cb) {
+    var self = this,
+        opts = self.options;
+    // If test mode is enabled or removeEmptyDirs is disabled, just return.
+    if(opts.test || !opts.removeEmptyDirs) return cb(null);
+    
+    dir.subdirs(opts.cwd, function(err, dirs) {
+        if(err) return cb(err);
+        if(!Array.isArray(dirs)) return cb();
+        console.log(dirs);
+        eachSeries(dirs, function(dp, icb) {
+            isEmptyDir(dp, function(err, empty) {
+                if(err || !empty) return icb();
+                
+                rimraf(dp, function(err) {
+                    if(err) return icb();
+                    icb(null, dp);
+                });
+            });
+        }, function(err, results) {
+            cb(err, results);
+        });
+    });
+};
+
+
+/**
+ * Determines if provided path is empty.
+ * @private
+ * @param  {String}   path The path to check if is empty
+ * @param  {Function} cb   Callback function to call once completed
+ */
+function isEmptyDir(path, cb) {
+    fs.readdir(path, function (err, files) {
+        if(err === null) return cb(null, !!!files.length);
+        cb(err);
+    });
+}
 
 /**
  * Extends object with properties from another object

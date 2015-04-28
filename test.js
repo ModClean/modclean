@@ -313,6 +313,7 @@ describe('ModClean instance', function() {
                 
                 new modclean.ModClean({
                     patterns: ['index.js'],
+                    removeEmptyDirs: false,
                     process: function(file, files, cb) {
                         file.should.be.a.String;
                         files.should.be.an.Array;
@@ -334,6 +335,7 @@ describe('ModClean instance', function() {
                 
                 new modclean.ModClean({
                     patterns: ['index.js'],
+                    removeEmptyDirs: false,
                     process: function(file, files, cb) {
                         count++;
                         cb(false);
@@ -354,6 +356,7 @@ describe('ModClean instance', function() {
                 
                 new modclean.ModClean({
                     patterns: ['index.js'],
+                    removeEmptyDirs: false,
                     process: function(file, files) {
                         file.should.be.a.String;
                         files.should.be.an.Array;
@@ -374,6 +377,7 @@ describe('ModClean instance', function() {
                 
                 new modclean.ModClean({
                     patterns: ['index.js'],
+                    removeEmptyDirs: false,
                     process: function(file, files) {
                         count++;
                         return false;
