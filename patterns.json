@@ -3,6 +3,7 @@
         "readme*",
         ".npmignore",
         "*license*",
+        "*licence*",
         "history*",
         ".gitattributes",
         ".gitmodules",
@@ -19,7 +20,7 @@
         "changelog*",
         ".jshintrc",
         "bower.json",
-        "appveyor.yml",
+        "*appveyor.yml",
         "*.log",
         "*.tlog",
         "*.patch",
@@ -62,7 +63,21 @@
         ".gitkeep",
         ".dntrc",
         "*.watchr",
-        ".jsbeautifyrc"
+        ".jsbeautifyrc",
+        "cname",
+        "screenshots",
+        ".dir-locals.el",
+        "jsl.conf",
+        "jsstyle",
+        "benchmark",
+        "dockerfile",
+        "*.nuspec",
+        "*.csproj",
+        "thumbs.db",
+        ".ds_store",
+        "desktop.ini",
+        "npm-debug.log",
+        "wercker.yml"
     ],
     
     "caution": [
@@ -86,13 +101,23 @@
         "*.gypi",
         "*.h",
         "*.c",
-        "*.cc"
+        "*.cc",
+        "*.cpp"
     ],
     
     "danger": [
         "*.coffee",
         "*.ts",
         ".bin",
-        "*.min.js"
+        "*.min.js",
+        "test.js",
+        "*.test.js",
+        "gruntfile.js",
+        "gulpfile.js",
+        "*.sh",
+        "*.bat",
+        "*.cmd",
+        "*.ps1",
+        "images"
     ]
 }
