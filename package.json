@@ -1,6 +1,6 @@
 {
   "name": "modclean",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Remove unwanted files and directories from your node_modules folder",
   "main": "index.js",
   "bin": {

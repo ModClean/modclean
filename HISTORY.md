@@ -1,5 +1,8 @@
 # ModClean History
 
+## 1.2.1 (4/29/2015)
+* Removed lingering `console.log`.
+
 ## 1.2.0 (4/28/2015)
 * Added several new patterns to `patterns.json`.
 * Added ability to delete empty directories.
