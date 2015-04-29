@@ -1,7 +1,7 @@
 /**
  * modclean
  * Remove unwanted files and directories from your node_modules folder
- * @version 1.2.0 (4/28/2015)
+ * @version 1.2.1 (4/29/2015)
  * @author Kyle Ross
  */
 
@@ -274,7 +274,7 @@ ModClean.prototype._removeEmpty = function(cb) {
     dir.subdirs(opts.cwd, function(err, dirs) {
         if(err) return cb(err);
         if(!Array.isArray(dirs)) return cb();
-        console.log(dirs);
+        
         eachSeries(dirs, function(dp, icb) {
             isEmptyDir(dp, function(err, empty) {
                 if(err || !empty) return icb();
