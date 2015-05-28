@@ -1,5 +1,8 @@
 # ModClean History
 
+## 1.2.2 (5/28/2015)
+* Adjusted `history*` pattern (#3)
+
 ## 1.2.1 (4/29/2015)
 * Removed lingering `console.log`.
 
