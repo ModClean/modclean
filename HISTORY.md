@@ -1,5 +1,8 @@
 # ModClean History
 
+## 1.2.3 (6/30/2015)
+* Removed `.bin` pattern from safe patterns (#4)
+
 ## 1.2.2 (5/28/2015)
 * Adjusted `history*` pattern (#3)
 
