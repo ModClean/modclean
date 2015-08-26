@@ -80,6 +80,9 @@ When files are searched, they are searched using case sensitive matching. (ex. `
 #### -i, --interactive
 Run in interactive mode. For each file found, you will be prompted whether you want to delete or skip.
 
+#### -P, --no-progress
+Turns off the progress bar when files are being deleted.
+
 #### -d, --empty
 Delete all empty directories after the cleanup process. Does not prompt for deletion when in `--interactive` mode.
 
