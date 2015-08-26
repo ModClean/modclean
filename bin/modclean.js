@@ -21,6 +21,7 @@ program
     .option('-p, --path <path>', 'Path to run modclean on (defaults to current directory)')
     .option('-s, --case-sensitive', 'Matches are case sensitive')
     .option('-i, --interactive', 'Each deleted file/folder requires confirmation')
+    .option('-P, --no-progress', 'Hide progress bar')
     .option('-e, --error-halt', 'Halt script on error')
     .option('-v, --verbose', 'Run in verbose mode')
     .option('-r, --run', 'Run immediately without warning')
@@ -164,7 +165,7 @@ ModCleanCLI.prototype = {
         inst.on('deleted', function(file) {
             log('event', 'deleted');
             
-            if(!self.argv.interactive) ui.updateBottomBar(self.getProgress());
+            if(!self.argv.interactive && self.argv.progress) ui.updateBottomBar(self.getProgress());
             
             log('verbose', 'DELETED'.yellow.bold, '(%/%) %'.fmt(self.current, self.total, file.grey));
         });
@@ -194,6 +195,7 @@ ModCleanCLI.prototype = {
     },
     
     getProgress: function() {
+        if(!this.argv.progress) return '';
         return 'Cleanup Progress '.grey + this.progressBar.update(this.current, this.total) + ' (%/%)'.fmt(this.current, this.total);
     },
     
