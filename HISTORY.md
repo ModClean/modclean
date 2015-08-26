@@ -1,5 +1,19 @@
 # ModClean History
 
+## 1.2.4 (8/26/2015)
+* Added ability to disable progress bar in CLI (#5)
+* Updated dependencies:
+    * inquirer@0.9.0
+    * update-notifier@0.5.0
+    * colors@1.1.2
+    * commander@2.8.1
+    * glob@5.0.14
+    * node-dir@0.1.9
+    * rimraf@2.4.2
+* Updated dev dependencies:
+    * should@7.0.4
+    * mocha@2.2.5
+
 ## 1.2.3 (6/30/2015)
 * Removed `.bin` pattern from safe patterns (#4)
 

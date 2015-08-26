@@ -1,6 +1,6 @@
 {
   "name": "modclean",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Remove unwanted files and directories from your node_modules folder",
   "main": "index.js",
   "bin": {
@@ -30,16 +30,16 @@
   },
   "homepage": "https://github.com/KyleRoss/modclean",
   "dependencies": {
-    "colors": "^1.0.3",
-    "commander": "^2.8.0",
-    "glob": "^5.0.5",
-    "inquirer": "^0.8.2",
-    "node-dir": "^0.1.8",
-    "rimraf": "^2.3.2",
-    "update-notifier": "^0.3.2"
+    "colors": "^1.1.2",
+    "commander": "^2.8.1",
+    "glob": "^5.0.14",
+    "inquirer": "^0.9.0",
+    "node-dir": "^0.1.9",
+    "rimraf": "^2.4.2",
+    "update-notifier": "^0.5.0"
   },
   "devDependencies": {
-    "mocha": "^2.2.4",
-    "should": "^6.0.1"
+    "mocha": "^2.2.5",
+    "should": "^7.0.4"
   }
 }
