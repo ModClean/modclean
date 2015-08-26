@@ -1,5 +1,8 @@
 # ModClean History
 
+## 1.2.5 (8/26/2015)
+* Fix a deprecated function in inquirer that was missed during testing (#5)
+
 ## 1.2.4 (8/26/2015)
 * Added ability to disable progress bar in CLI (#5)
 * Updated dependencies:
