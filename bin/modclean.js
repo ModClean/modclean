@@ -217,7 +217,7 @@ ModCleanCLI.prototype = {
     
     spinStop: function() {
         clearInterval(this._spin);
-        ui.clean();
+        ui.updateBottomBar('');
     }
 };
 
