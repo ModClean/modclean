@@ -1,5 +1,13 @@
 # ModClean History
 
+## 1.2.6 (3/4/2016)
+* Added additional patterns #6 (@KenRmk)
+* Added Node 4.0 and 4.1 to `.travis.yml`
+* Updated dependencies:
+    * glob@7.0.0
+    * inquirer@0.12.0
+    * update-notifier@0.6.1
+
 ## 1.2.5 (8/26/2015)
 * Fix a deprecated function in inquirer that was missed during testing (#5)
 
