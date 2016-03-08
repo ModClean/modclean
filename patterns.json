@@ -63,12 +63,8 @@
         "cakefile",
         ".istanbul.yml",
         "authors",
-        "uglifyjs",
         "hyper-schema",
         "mocha.opts",
-        "semver",
-        "link",
-        "links",
         ".gradle",
         ".tern-port",
         ".gitkeep",
@@ -129,6 +125,10 @@
         "*.bat",
         "*.cmd",
         "*.ps1",
-        "images"
+        "images",
+        "semver",
+        "link",
+        "links",
+        "uglifyjs"
     ]
 }
