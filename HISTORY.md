@@ -1,5 +1,14 @@
 # ModClean History
 
+## 1.3.0 (1/6/2017)
+* Added `noDirs` option to exclude directories from being removed (#8)
+    - Added `--no-dirs` option to CLI (#8)
+* Added `ignore` option to exclude array of glob patterns from being removed (#8)
+    - Added `-I, --ignore` option to CLI to pass in comma-separated list of glob patterns (#8)
+* Changed the `*.map` safe pattern to `*.js.map` (#10)
+* Moved `*.map` to danger patterns (#10)
+* Skip inital logging if not verbose to prevent stack overflow (#9)
+
 ## 1.2.6 (3/4/2016)
 * Added additional patterns #6 (@KenRmk)
 * Added Node 4.0 and 4.1 to `.travis.yml`
