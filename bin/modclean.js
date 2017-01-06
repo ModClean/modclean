@@ -224,6 +224,7 @@ ModCleanCLI.prototype = {
 
 function log(type) {
     var prefix;
+    if((type === 'verbose' || type === 'event') && !program.verbose) return;
     
     switch(type) {
         case 'event': 
@@ -238,7 +239,6 @@ function log(type) {
         default: prefix = '';
     }
     
-    if((type === 'verbose' || type === 'event') && !program.verbose) return;
     var args = Array.prototype.slice.call(arguments, 1);
     args.unshift(prefix + '>'.grey);
     
