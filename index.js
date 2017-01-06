@@ -26,6 +26,16 @@ var defaults     = {
      */
     patterns:   patterns.safe,
     /**
+     * Exclude directories from being removed
+     * @type {Boolean}
+     */
+    noDirs:     false,
+    /**
+     * Ignore the provided glob patterns
+     * @type {Array|null}
+     */
+    ignore:     null,
+    /**
      * Ignore the case of the file names when searching by patterns (default `true`)
      * @type {Boolean}
      */
@@ -176,7 +186,9 @@ ModClean.prototype._find = function(patterns, cb) {
         globOpts = {
             cwd: opts.cwd,
             dot: true,
-            nocase: opts.ignoreCase
+            nocase: opts.ignoreCase,
+            ignore: opts.ignore,
+            nodir: opts.noDirs
         };
     
     glob('**/@('+ (patterns || opts.patterns).join('|') +')', globOpts, function(err, files) {
