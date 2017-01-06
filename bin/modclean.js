@@ -13,6 +13,10 @@ var program  = require('commander'),
 
 if(notifier.update) notifier.notify();
 
+function list(val) {
+    return val.split(',');
+}
+
 program
     .version(pkg.version)
     .description('Remove unwanted files and directories from your node_modules folder')
@@ -26,6 +30,8 @@ program
     .option('-v, --verbose', 'Run in verbose mode')
     .option('-r, --run', 'Run immediately without warning')
     .option('-n, --patterns [patterns]', 'Patterns type(s) to remove (safe, caution, or danger)')
+    .option('-I, --ignore <list>', 'Comma separated list of patterns to ignore', list)
+    .option('--no-dirs', 'Exclude directories from being removed')
     .option('-d, --empty', 'Remove empty directories')
     .parse(process.argv);
 
@@ -88,6 +94,7 @@ function ModCleanCLI(opts) {
     this.options = {
         cwd: opts.path || process.cwd(),
         patterns: _patterns.length? _patterns : modclean.patterns.safe,
+        noDirs: !!opts.dirs,
         errorHalt: !!opts.errorHalt,
         removeEmptyDirs: !!opts.empty,
         test: !!opts.test,
@@ -104,6 +111,8 @@ function ModCleanCLI(opts) {
             });
         }
     };
+    
+    if(opts.ignore && opts.ignore.length) this.options.ignore = opts.ignore;
     
     if(program.caseSensitive) this.options.ignoreCase = false;
     
