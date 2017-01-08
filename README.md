@@ -195,15 +195,15 @@ Optional function to call before each file is deleted. This function can be used
 The modules directory name to use when looking for modules. This is only used when setting the correct `options.cwd` path. If you do not want the modules directory to be appended to `options.cwd`, set this option to `false`. If `options.cwd` already ends with the value of this option, it will not be appended to the path.
 
 #### removeEmptyDirs
-*(Boolean)* **Default:** `true`
+*(Boolean)* **Default:** `true`  
 Whether to remove empty directories after the cleanup process. This is usually a safe option to use.
 
 #### ignore
-*([String])* **Default:** `null`
+*([String])* **Default:** `null`  
 Array of glob patterns (strings) to ignore while running the deletion process.
 
 #### noDirs
-*(Boolean) **Default:** `false`
+*(Boolean) **Default:** `false`  
 Set to `true` to skip directories from being deleted during the cleaning process.
 
 #### errorHalt
