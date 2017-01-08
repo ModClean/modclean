@@ -83,6 +83,12 @@ Run in interactive mode. For each file found, you will be prompted whether you w
 #### -P, --no-progress
 Turns off the progress bar when files are being deleted.
 
+#### -I, --ignore
+Comma-separated list of glob patterns to ignore during cleaning.
+
+#### --no-dirs
+Do not delete directories, only files.
+
 #### -d, --empty
 Delete all empty directories after the cleanup process. Does not prompt for deletion when in `--interactive` mode.
 
@@ -191,6 +197,14 @@ The modules directory name to use when looking for modules. This is only used wh
 #### removeEmptyDirs
 *(Boolean)* **Default:** `true`
 Whether to remove empty directories after the cleanup process. This is usually a safe option to use.
+
+#### ignore
+*([String])* **Default:** `null`
+Array of glob patterns (strings) to ignore while running the deletion process.
+
+#### noDirs
+*(Boolean) **Default:** `false`
+Set to `true` to skip directories from being deleted during the cleaning process.
 
 #### errorHalt
 *(Boolean)* **Default:** `false`  
