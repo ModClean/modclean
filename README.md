@@ -17,34 +17,34 @@ This module has been heavily tested in an enterprise environment used for large 
 ### Removal Benchmark
 So how well does this module work? If we `npm install sails` and run ModClean on it, here are the results:
 
-_All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v3.10.8_
+_All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v4.0.5_
 
 #### Using Default Safe Patterns
 `modclean --empty-dirs -n default:safe` or `modclean -d`
 
-|                 | Total Files | Total Folders | Total Size  |
-| --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 16,126      | 1,942         | 118 MB      |
-| After ModClean  | 12,139      | 1,504         | 95 MB       |
-| Reduced         | **3,987**   | **438**       | **23 MB**   |
+|                 | Total Files | Total Folders | Total Size   |
+| --------------- | ----------- | ------------- | ------------ |
+| Before ModClean | 16,179      | 1,941         | 71.24 MB     |
+| After ModClean  | 12,192      | 1,503         | 59.35 MB     |
+| Reduced         | **3,987**   | **438**       | **11.88 MB** |
 
 #### Using Safe and Caution Patterns
 `modclean --empty-dirs -n default:safe,default:caution`
 
-|                 | Total Files | Total Folders | Total Size  |
-| --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 16,126      | 1,942         | 118 MB      |
-| After ModClean  | 11,888      | 1,474         | 90 MB       |
-| Reduced         | **4,238**   | **468**       | **28 MB**   |
+|                 | Total Files | Total Folders | Total Size   |
+| --------------- | ----------- | ------------- | ------------ |
+| Before ModClean | 16,179      | 1,941         | 71.24 MB     |
+| After ModClean  | 11,941      | 1,473         | 55.28 MB     |
+| Reduced         | **4,238**   | **468**       | **15.95 MB** |
 
 #### Using Safe, Caution and Danger Patterns
 `modclean --empty-dirs --patterns="default:*"`
 
-|                 | Total Files | Total Folders | Total Size  |
-| --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 16,126      | 1,942         | 118 MB      |
-| After ModClean  | 11,691      | 1,449         | 86 MB       |
-| Reduced         | **4,435**   | **493**       | **32 MB**   |
+|                 | Total Files | Total Folders | Total Size   |
+| --------------- | ----------- | ------------- | ------------ |
+| Before ModClean | 16,179      | 1,941         | 71.24 MB     |
+| After ModClean  | 11,684      | 1,444         | 51.76 MB     |
+| Reduced         | **4,495**   | **497**       | **19.47 MB** |
 
 That makes a huge difference in the amount of files and disk space.
 
