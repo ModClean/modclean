@@ -1,6 +1,6 @@
 {
   "name": "modclean",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Remove unwanted files and directories from your node_modules folder",
   "main": "index.js",
   "bin": {
@@ -20,6 +20,10 @@
     "module-cleanup",
     "node_modules",
     "delete",
+    "flatten",
+    "path",
+    "limit",
+    "less",
     "files",
     "folders"
   ],
@@ -30,16 +34,26 @@
   },
   "homepage": "https://github.com/KyleRoss/modclean",
   "dependencies": {
-    "colors": "^1.1.2",
-    "commander": "^2.8.1",
-    "glob": "^7.0.0",
-    "inquirer": "^0.12.0",
-    "node-dir": "^0.1.9",
-    "rimraf": "^2.4.2",
-    "update-notifier": "^0.6.1"
+    "async-each-series": "^1.1.0",
+    "chalk": "^1.1.3",
+    "clui": "^0.3.1",
+    "commander": "^2.9.0",
+    "empty-dir": "^0.2.1",
+    "extend": "^3.0.0",
+    "glob": "^7.1.1",
+    "lodash.uniq": "^4.5.0",
+    "modclean-patterns-default": "^1.0.0",
+    "pad": "^1.0.2",
+    "rimraf": "^2.5.4",
+    "subdirs": "^1.0.0",
+    "update-notifier": "^1.0.3"
   },
   "devDependencies": {
-    "mocha": "^2.2.5",
-    "should": "^7.0.4"
-  }
+    "mocha": "^3.2.0",
+    "should": "^11.1.2"
+  },
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "engineStrict": true
 }

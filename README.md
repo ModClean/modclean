@@ -1,50 +1,54 @@
 # ModClean
 *Remove unwanted files and directories from your node_modules folder*
 
-[![npm version](https://img.shields.io/npm/v/modclean.svg)](https://www.npmjs.com/package/modclean) [![Build Status](https://img.shields.io/travis/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean) ![NPM Dependencies](https://david-dm.org/KyleRoss/modclean.svg) [![NPM Downloads](https://img.shields.io/npm/dm/modclean.svg)](https://www.npmjs.com/package/modclean) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KyleRoss/modclean/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/KyleRoss/modclean.svg)](https://github.com/KyleRoss/modclean/issues)
+[![npm version](https://img.shields.io/npm/v/modclean.svg)](https://www.npmjs.com/package/modclean) [![Build Status](https://img.shields.io/travis/KyleRoss/modclean.svg)](https://travis-ci.org/KyleRoss/modclean) ![NPM Dependencies](https://david-dm.org/KyleRoss/modclean.svg) [![NPM Downloads](https://img.shields.io/npm/dm/modclean.svg)](https://www.npmjs.com/package/modclean) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KyleRoss/modclean/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/KyleRoss/modclean.svg)](https://github.com/KyleRoss/modclean/issues) [![Package Quality](http://npm.packagequality.com/shield/modclean.svg)](http://packagequality.com/#?package=modclean)
 
-In some environments (especially Enterprise), it's required to commit the `node_modules` folder into version control due to compatibility and vetting open source code. One of the major issues with this is the sheer amount of useless files that are littered through the node_modules folder; taking up space, causing long commit/checkout times, increasing latency on the network, causing additional stress on a CI server, etc. If you think about it, do you really need to deploy tests, examples, build files, attribute files, etc? ModClean is a simple utility that provides a full API and CLI utility to reduce the number of useless files. Even if you do not commit your node_modules folder, this utility is still useful when the application is deployed since you do not need these useless files wasting precious disk space on your server.
+### This documentation is for ModClean 2.x which requires Node v6.9+, if you need to support older versions, use ModClean 1.3.0 instead.
+
+In some environments (especially Enterprise), it's required to commit the `node_modules` folder into version control due to compatibility and vetting open source code. One of the major issues with this is the sheer amount of useless files that are littered through the node_modules folder; taking up space, causing long commit/checkout times, increasing latency on the network, causing additional stress on a CI server, etc. If you think about it, do you really need to deploy tests, examples, build files, attribute files, etc? ModClean is a simple utility that provides a full API and CLI utility to reduce the number of useless files. Even if you do not commit your node_modules folder, this utility is still useful when the application is deployed as you do not need these useless files wasting precious disk space on your server.
 
 Depending on the number of modules you are using, file reduction can be anywhere from hundreds to thousands. I work for a Fortune 500 company and we use this to reduce the amount of useless files and typically we remove over 500 files (roughly 100MB total) from our ~20 modules we use in our applications. It's a huge improvement in deployment time and commit/checkout time.
 
-This module comes with a JSON file (patterns.json) that outlines file patterns that searched for through the node_modules folder recursively. This list is a basic list of commonly found files/folders within various node_modules that are junk, although it's by no means a complete list. Even though this is the default list, you can provide your own list of patterns to use instead.
+**New!** In ModClean 2.0.0, patterns are now provided by plugins instead of a static `patterns.json` file as part of the module. By default, ModClean comes with [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) installed, providing the same patterns as before. You now have the ability to create your own patterns plugins and use multiple plugins to clean your modules. This allows flexibility with both the programmatic API and CLI.
 
 **IMPORTANT**
-This module has been heavily tested in an enterprise environment used for large enterprise applications. The provided patterns in this module (see patterns.json) have worked very well when cleaning up useless files in many popular modules. There are hundreds of thousands of modules in NPM and we cannot simply cover them all. If you are using ModClean for the first time on your application, you should create a copy of the application so you can ensure it still runs properly after running ModClean. The patterns are set in a way to ensure no crutial module files are removed, although there could be one-off cases where a module could be affected and that's why I am stressing that testing and backups are important. There could still be many useless files left after the cleanup process since we cannot cover them all. If you find any files that should be removed, please create a pull request using the contributing guidelines at the bottom of this file.
+This module has been heavily tested in an enterprise environment used for large enterprise applications. The provided patterns in [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) have worked very well when cleaning up useless files in many popular modules. There are hundreds of thousands of modules in NPM and I cannot simply cover them all. If you are using ModClean for the first time on your application, you should create a copy of the application so you can ensure it still runs properly after running ModClean. The patterns are set in a way to ensure no crutial module files are removed, although there could be one-off cases where a module could be affected and that's why I am stressing that testing and backups are important. If you find any files that should be removed, please create a pull request to [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) or create your own patterns plugin to share with the community.
 
 ### Removal Benchmark
 So how well does this module work? If we `npm install sails` and run ModClean on it, here are the results:
 
-#### Using Safe Patterns
-`modclean -n safe`
+_All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v3.10.8_
+
+#### Using Default Safe Patterns
+`modclean --empty-dirs -n default:safe` or `modclean -d`
 
 |                 | Total Files | Total Folders | Total Size  |
 | --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 7,461       | 1,915         | 72.5 MB     |
-| After ModClean  | 3,335       | 1,393         | 43.5 MB     |
-| Reduced         | **4,126**   | **522**       | **29.0 MB** |
+| Before ModClean | 16,126      | 1,942         | 118 MB      |
+| After ModClean  | 12,139      | 1,504         | 95 MB       |
+| Reduced         | **3,987**   | **438**       | **23 MB**   |
 
 #### Using Safe and Caution Patterns
-`modclean -n safe,caution`
+`modclean --empty-dirs -n default:safe,default:caution`
 
 |                 | Total Files | Total Folders | Total Size  |
 | --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 7,461       | 1,915         | 72.5 MB     |
-| After ModClean  | 3,029       | 1,393         | 38.8 MB     |
-| Reduced         | **4,432**   | **522**       | **33.7 MB** |
+| Before ModClean | 16,126      | 1,942         | 118 MB      |
+| After ModClean  | 11,888      | 1,474         | 90 MB       |
+| Reduced         | **4,238**   | **468**       | **28 MB**   |
 
 #### Using Safe, Caution and Danger Patterns
-`modclean -n safe,caution,danger`
+`modclean --empty-dirs --patterns="default:*"`
 
 |                 | Total Files | Total Folders | Total Size  |
 | --------------- | ----------- | ------------- | ----------- |
-| Before ModClean | 7,461       | 1,915         | 72.5 MB     |
-| After ModClean  | 2,957       | 1,393         | 35.9 MB     |
-| Reduced         | **4,504**   | **522**       | **36.6 MB** |
+| Before ModClean | 16,126      | 1,942         | 118 MB      |
+| After ModClean  | 11,691      | 1,449         | 86 MB       |
+| Reduced         | **4,435**   | **493**       | **32 MB**   |
 
 That makes a huge difference in the amount of files and disk space.
 
-View additional benchmarks in [BENCHMARK.md](https://github.com/KyleRoss/modclean/blob/master/BENCHMARK.md). If you would like to run some of your own benchmarks, you can use [modclean-benchmark](https://github.com/KyleRoss/modclean-benchmark).
+View additional benchmarks in [BENCHMARK.md](https://github.com/ModClean/modclean/blob/master/BENCHMARK.md). If you would like to run some of your own benchmarks, you can use [modclean-benchmark](https://github.com/ModClean/modclean-benchmark).
 
 ## Install
 
