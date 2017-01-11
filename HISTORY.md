@@ -31,8 +31,10 @@
 ### ModClean CLI Changes
 * Rewrite using ES6 with new features and bug fixes.
 * **Breaking Change:** `-n, --patterns` option now takes list of plugins instead of a pattern rule name.
+* **Removed:** `-d, --empty` option.
 * **New!** Added `-D, --modules-dir` option.
 * **New!** Added `-a, --additional-patterns` option.
+* **New!** Added `-k, --keep-empty` option.
 * **New!** Added `--no-dotfiles` option.
 * Removed `inquirer` dependency in favor of `clui` and utility functions.
 * Reduced memory usage of the CLI.
