@@ -44,7 +44,7 @@ program
     .option('-I, --ignore <list>', 'Comma separated list of patterns to ignore', list)
     .option('--no-dirs', 'Exclude directories from being removed')
     .option('--no-dotfiles', 'Exclude dot files from being removed')
-    .option('-d, --empty', 'Remove empty directories')
+    .option('-k, --keep-empty', 'Keep empty directories')
     .parse(process.argv);
 
 class ModClean_CLI {
@@ -106,7 +106,7 @@ class ModClean_CLI {
             noDirs: !program.dirs,
             dotFiles: !!program.dotfiles,
             errorHalt: !!program.errorHalt,
-            removeEmptyDirs: !!program.empty,
+            removeEmptyDirs: !program.keepEmpty,
             ignoreCase: !program.caseSensitive,
             test: !!program.test,
             process: function(file, cb) {
