@@ -36,6 +36,37 @@ Example of the most depended-upon modules from [npmjs.com](https://www.npmjs.com
 | After ModClean  | 1,620       | 191           | 4.59 MB       |
 | Reduced         | **528**     | **31**        | **1.61 MB**   |
 
+### `npm install lodash express debug request chalk moment async bluebird react underscore commander mkdirp`
+Example of the most depended-upon modules from [npmjs.com](https://www.npmjs.com/) (1/11/2017).
+
+    modclean-benchmark -m lodash,express,debug,request,chalk,moment,async,bluebird,react,underscore,commander,mkdirp -n default:safe
+
+|                 | Total Files | Total Folders | Total Size    |
+| --------------- | ----------- | ------------- | ------------- |
+| Before ModClean | 3,770       | 309           | 11.29 MB      |
+| After ModClean  | 3,175       | 275           | 9.20 MB       |
+| Reduced         | **595**     | **34**        | **2.08 MB**   |
+
+### `npm install browserify express pm2 grunt-cli npm karma bower cordova coffee-script gulp forever statsd grunt less yo`
+Example of the top modules from [npmjs.com](https://www.npmjs.com/) (1/11/2017).
+
+    modclean-benchmark -m browserify,express,pm2,grunt-cli,npm,karma,bower,cordova,coffee-script,gulp,forever,statsd,grunt,less,yo -n default:safe
+
+|                 | Total Files | Total Folders | Total Size    |
+| --------------- | ----------- | ------------- | ------------- |
+| Before ModClean | 33,942      | 5,643         | 124.00 MB     |
+| After ModClean  | 21,074      | 3,695         | 88.57 MB      |
+| Reduced         | **12,868**  | **1,948**     | **35.43 MB**  |
+
+#### With all patterns...
+
+    modclean-benchmark -m browserify,express,pm2,grunt-cli,npm,karma,bower,cordova,coffee-script,gulp,forever,statsd,grunt,less,yo --patterns="default:*"
+
+|                 | Total Files | Total Folders | Total Size    |
+| --------------- | ----------- | ------------- | ------------- |
+| Before ModClean | 33,942      | 5,643         | 124.00 MB     |
+| After ModClean  | 19,751      | 3,544         | 65.55 MB      |
+| Reduced         | **14,191**  | **2,099**     | **58.47 MB**  |
 
 ---
 
