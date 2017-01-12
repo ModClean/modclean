@@ -1,5 +1,48 @@
 # ModClean History
 
+## 2.0.0 (1/11/2016)
+### ModClean API Changes
+* Complete rewrite using ES6 and some breaking changes (now requires Node v6.9+)
+* No longer includes `patterns.json` file, instead uses plugins to allow further customization.
+* **Breaking Change:** `patterns` option now takes array of pattern plugins instead of patterns. See README for more information.
+* **Breaking Change:** `ignore` option has been renamed to `ignorePatterns`.
+* **Breaking Change:** `process` option now is sync with only 1 argument and async with 2.
+* **New!** Added `additionalPatterns` option that takes array of glob patterns to use with any provided pattern plugins.
+* **New!** Added `dotFiles` option that allows disabling of removing dot files.
+* **New!** Added `process` event which will be fired before the files start processing.
+* **New!** When finding empty directories, it will now ignore `.DS_Store` and `Thumbs.db` files.
+* **New!** Added `beforeFind` event.
+* **New!** Added `beforeEmptyDirs` event.
+* **New!** Added `emptyDirs` event.
+* **New!** Added `emptyDirError` event.
+* **New!** Added `afterEmptyDirs` event.
+* **New!** Added `deletedEmptyDir` event.
+* Removed utility functions in favor for micro-packages.
+    * Removed unused dependencies.
+    * Replaced `node-dir` dependency with `subdirs`.
+    * Replaced `colors` dependency with `chalk`.
+    * Added `empty-dir` dependency.
+    * Added `async-each-series` dependency.
+    * Added `extend` dependency.
+    * Added `lodash.uniq` dependency.
+* Updated all dependcies to their latest versions.
+* Benchmarks updated for 2017.
+
+### ModClean CLI Changes
+* Rewrite using ES6 with new features and bug fixes.
+* **Breaking Change:** `-n, --patterns` option now takes list of plugins instead of a pattern rule name.
+* **Removed:** `-d, --empty` option.
+* **New!** Added `-D, --modules-dir` option.
+* **New!** Added `-a, --additional-patterns` option.
+* **New!** Added `-k, --keep-empty` option.
+* **New!** Added `--no-dotfiles` option.
+* Removed `inquirer` dependency in favor of `clui` and utility functions.
+* Reduced memory usage of the CLI.
+* Logging has been rewritten to handle stack overflow errors.
+* Updated some text.
+
+_If you still need to support Node < v6.9, use ModClean 1.3.0 instead. For more information about these changes, refer to the README._
+
 ## 1.3.0 (1/6/2017)
 * Added `noDirs` option to exclude directories from being removed (#8)
     - Added `--no-dirs` option to CLI (#8)
