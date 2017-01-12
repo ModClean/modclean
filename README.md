@@ -20,7 +20,7 @@ So how well does this module work? If we `npm install sails` and run ModClean on
 _All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v4.0.5_
 
 #### Using Default Safe Patterns
-`modclean --empty-dirs -n default:safe` or `modclean -d`
+`modclean -n default:safe` or `modclean`
 
 |                 | Total Files | Total Folders | Total Size   |
 | --------------- | ----------- | ------------- | ------------ |
@@ -29,7 +29,7 @@ _All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v4.0.5_
 | Reduced         | **3,987**   | **438**       | **11.88 MB** |
 
 #### Using Safe and Caution Patterns
-`modclean --empty-dirs -n default:safe,default:caution`
+`modclean -n default:safe,default:caution`
 
 |                 | Total Files | Total Folders | Total Size   |
 | --------------- | ----------- | ------------- | ------------ |
@@ -38,7 +38,7 @@ _All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v4.0.5_
 | Reduced         | **4,238**   | **468**       | **15.95 MB** |
 
 #### Using Safe, Caution and Danger Patterns
-`modclean --empty-dirs --patterns="default:*"`
+`modclean --patterns="default:*"`
 
 |                 | Total Files | Total Folders | Total Size   |
 | --------------- | ----------- | ------------- | ------------ |
