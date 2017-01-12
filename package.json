@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/KyleRoss/modclean"
+    "url": "https://github.com/ModClean/modclean"
   },
   "keywords": [
     "module",
@@ -30,9 +30,9 @@
   "author": "Kyle Ross",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/KyleRoss/modclean/issues"
+    "url": "https://github.com/ModClean/modclean/issues"
   },
-  "homepage": "https://github.com/KyleRoss/modclean",
+  "homepage": "https://github.com/ModClean/modclean",
   "dependencies": {
     "async-each-series": "^1.1.0",
     "chalk": "^1.1.3",
