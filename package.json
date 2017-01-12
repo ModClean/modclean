@@ -48,10 +48,6 @@
     "subdirs": "^1.0.0",
     "update-notifier": "^1.0.3"
   },
-  "devDependencies": {
-    "mocha": "^3.2.0",
-    "should": "^11.1.2"
-  },
   "engines": {
     "node": ">=6.9.0"
   },

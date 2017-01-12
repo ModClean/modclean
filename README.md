@@ -508,11 +508,6 @@ If you've created your own plugin, submit a pull request to add it to the list a
 
 ---
 
-## Tests
-This module has a good number of tests written for it that should cover most (if not all cases). If you would like to run the tests, please install `mocha` globally and install the `devDependencies` for this module. You can run the tests by calling `npm test`. The tests are ran using this modules own `node_modules` folder.
-
----
-
 ## Issues
 If you find any bugs with either ModClean or the CLI Utility, please feel free to open an issue. Any feature requests may also be poseted in the issues.
 
@@ -523,9 +518,6 @@ If you would like to contribute to this project, please ensure you follow the gu
 
 ### Code Style
 I'm not very picky on the code style as long as it roughly follows what is currently written in the modules. Just ensure that lines that should end with semi-colons do end with them. Comments are also very helpful for future contributors to know what's going on.
-
-### Run Tests
-If you are making a code change, please run the tests and ensure they pass before submitting a pull request. If you are adding new functionality, please ensure to write the tests for it.
 
 ---
 
