@@ -48,7 +48,7 @@ _All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v4.0.5_
 
 That makes a huge difference in the amount of files and disk space.
 
-View additional benchmarks in [BENCHMARK.md](https://github.com/ModClean/modclean/blob/master/BENCHMARK.md). If you would like to run some of your own benchmarks, you can use [modclean-benchmark](https://github.com/ModClean/modclean-benchmark).
+View additional benchmarks on the Wiki: [Benchmarks](https://github.com/ModClean/modclean/wiki/Benchmarks). If you would like to run some of your own benchmarks, you can use [modclean-benchmark](https://github.com/ModClean/modclean-benchmark).
 
 ## Install
 
