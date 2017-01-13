@@ -5,16 +5,31 @@
 
 ### This documentation is for ModClean 2.x which requires Node v6.9+, if you need to support older versions, use [ModClean 1.3.0](https://github.com/ModClean/modclean/tree/1.x) instead.
 
-In some environments (especially Enterprise), it's required to commit the `node_modules` folder into version control due to compatibility and vetting open source code. One of the major issues with this is the sheer amount of useless files that are littered through the node_modules folder; taking up space, causing long commit/checkout times, increasing latency on the network, causing additional stress on a CI server, etc. If you think about it, do you really need to deploy tests, examples, build files, attribute files, etc? ModClean is a simple utility that provides a full API and CLI utility to reduce the number of useless files. Even if you do not commit your node_modules folder, this utility is still useful when the application is deployed as you do not need these useless files wasting precious disk space on your server.
+ModClean is a utility that finds and removes unnecessary files and folders from your `node_modules` directory based on [predefined](https://github.com/ModClean/modclean-patterns-default) and [custom](#custom-pattern-plugins) [glob](https://github.com/isaacs/node-glob) patterns. This utility comes with both a CLI and a programmatic API to provide customization for your environment. ModClean is used and tested in an Enterprise environment on a daily basis.
 
-Depending on the number of modules you are using, file reduction can be anywhere from hundreds to thousands. I work for a Fortune 500 company and we use this to reduce the amount of useless files and typically we remove over 500 files (roughly 100MB total) from our ~20 modules we use in our applications. It's a huge improvement in deployment time and commit/checkout time.
+## Why?
+There are a few different reasons why you would want to use ModClean:
 
+* **Commiting Modules.** Some evironments (especially Enterprise), it's required to commit the `node_modules` directory with your application into version control. This is due to compatibility, vetting and vunerability scanning rules for open source software. This can lead to issues with project size, checking out/pulling changes and the infamous 255 character path limit if you're unlucky enough to be on Windows or SVN.
+* **Wasted space on your server.** Why waste space on your server with files not needed by you or the modules?
+* **Packaged applications.** If you're required to package your application, you can reduce the size of the package quickly by removing unneeded files.
+* **Compiled applications.** Other tools like, [NW.js](https://nwjs.io/) and [Electron](http://electron.atom.io/) make it easy to create cross-platform desktop apps, but depending on the modules, your app can become huge. Reduce down the size of the compiled application before shipping and make it faster for users to download.
+* **Save space on your machine.** Depending on the amount of global modules you have installed, you can reduce their space by removing those gremlin files.
+* **and much more!**
+
+The :cake: is a lie, but the [Benchmarks](https://github.com/ModClean/modclean/wiki/Benchmarks) are not.
+
+## How?
 **New!** In ModClean 2.0.0, patterns are now provided by plugins instead of a static `patterns.json` file as part of the module. By default, ModClean comes with [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) installed, providing the same patterns as before. You now have the ability to create your own patterns plugins and use multiple plugins to clean your modules. This allows flexibility with both the programmatic API and CLI.
+
+ModClean scans the `node_modules` directory of your choosing, finding all files and folders that match the defined patterns and deleting them. Both the CLI and the programmatic API provides all the options needed to customize this process to your requirements. Depending on the number of modules your app requires, files can be reduced anywhere from hundreds to thousands and disk space can be reduced considerably.
+
+_(File and disk space reduction can also be different between the version of NPM and Operating System)_
 
 **IMPORTANT**
 This module has been heavily tested in an enterprise environment used for large enterprise applications. The provided patterns in [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) have worked very well when cleaning up useless files in many popular modules. There are hundreds of thousands of modules in NPM and I cannot simply cover them all. If you are using ModClean for the first time on your application, you should create a copy of the application so you can ensure it still runs properly after running ModClean. The patterns are set in a way to ensure no crutial module files are removed, although there could be one-off cases where a module could be affected and that's why I am stressing that testing and backups are important. If you find any files that should be removed, please create a pull request to [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) or create your own patterns plugin to share with the community.
 
-### Removal Benchmark
+## Removal Benchmark
 So how well does this module work? If we `npm install sails` and run ModClean on it, here are the results:
 
 _All tests ran on macOS 10.12.3 with Node v6.9.1 and NPM v4.0.5_
