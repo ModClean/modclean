@@ -1,6 +1,17 @@
 # ModClean History
 
-## 2.0.0 (1/11/2016)
+## 2.1.0 (1/17/2017)
+* Added `emptyDirFilter` configuration option.
+* Use `Object.assign` instead of `extend` module.
+    - Removed `extend` dependency.
+* Removed unused `pad` dependency.
+* Removed duplicate call to `clean()` in shortcut method.
+* Misc. cleanup
+* **Breaking Change:** All error events (`error`, `fileError` and `emptyDirsError`) now return error object.
+* **New!** Added `errors` property on the ModClean class which contains all errors that occurred.
+* Moved documentation to the Wiki.
+
+## 2.0.0 (1/11/2017)
 ### ModClean API Changes
 * Complete rewrite using ES6 and some breaking changes (now requires Node v6.9+)
 * No longer includes `patterns.json` file, instead uses plugins to allow further customization.

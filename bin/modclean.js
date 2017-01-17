@@ -5,8 +5,6 @@ const chalk    = require('chalk');
 const program  = require('commander');
 const notifier = require('update-notifier');
 const clui     = require('clui');
-const pad      = require('pad');
-const readline = require('readline');
 const path     = require('path');
 const os       = require('os');
 const pkg      = require('../package.json');
@@ -227,7 +225,7 @@ class ModClean_CLI {
             );
         });
         
-        inst.on('afterEmptyDirs', (dirs) => {
+        inst.on('afterEmptyDirs', () => {
             if(showProgress) process.stdout.write('\n');
             this.log('event', 'afterEmptyDirs');
         });
@@ -235,13 +233,13 @@ class ModClean_CLI {
         // Error Event (called as soon as an error is encountered)
         inst.on('error', (err) => {
             this.log('event', 'error');
-            this.log('error', err);
+            this.log('error', err.error);
         });
         
         // FileError Event (called when there was an error deleting a file)
-        inst.on('fileError', (err, file) => {
+        inst.on('fileError', (err) => {
             this.log('event', 'fileError');
-            this.log('error', `${chalk.red.bold('FILE ERROR:')} ${err}\n${chalk.gray(file)}`);
+            this.log('error', `${chalk.red.bold('FILE ERROR:')} ${err.error}\n${chalk.gray(err.file)}`);
         });
         
         // Finish Event (once processing/deleting all files is complete)
