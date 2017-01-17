@@ -93,7 +93,5 @@ npm install modclean -g
 ## Issues
 If you find any bugs with either ModClean or the CLI Utility, please feel free to open an issue. Any feature requests may also be poseted in the issues.
 
----
-
 ## License
 ModClean is licensed under the MIT license. Please see LICENSE in the repository for the full text.
