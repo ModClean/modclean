@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 "use strict";
 
-const chalk    = require('chalk');
-const program  = require('commander');
+const chalk = require('chalk');
+const program = require('commander');
 const notifier = require('update-notifier');
-const clui     = require('clui');
-const path     = require('path');
-const os       = require('os');
-const pkg      = require('../package.json');
+const clui = require('clui');
+const path = require('path');
+const os = require('os');
+const pkg = require('../package.json');
 
-const utils    = require('./utils');
+const utils = require('./utils');
 const modclean = require('../lib/modclean');
 const ModClean = modclean.ModClean;
 
@@ -36,7 +36,7 @@ program
     .option('-P, --no-progress', 'Hide progress bar')
     .option('-e, --error-halt', 'Halt script on error')
     .option('-v, --verbose', 'Run in verbose mode')
-	.option('-f, --follow-symlink', 'Clean symlinked packages as well')
+    .option('-f, --follow-symlink', 'Clean symlinked packages as well')
     .option('-r, --run', 'Run immediately without warning')
     .option('-n, --patterns <list>', 'Patterns plugins/rules to use (defaults to "default:safe")', list)
     .option('-a, --additional-patterns <list>', 'Additional glob patterns to search for', list)
