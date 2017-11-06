@@ -44,7 +44,7 @@
     "empty-dir": "^0.2.1",
     "glob": "^7.1.1",
     "lodash.uniq": "^4.5.0",
-    "modclean-patterns-default": "^1.0.0",
+    "modclean-patterns-default": "latest",
     "rimraf": "^2.5.4",
     "subdirs": "^1.0.0",
     "update-notifier": "^1.0.3"
