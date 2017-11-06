@@ -1,5 +1,8 @@
 # ModClean History
 
+## 2.1.2 (11/6/2017)
+* Update package.json to use latest version of `modclean-patterns-default`
+
 ## 2.1.1 (11/6/2017)
 * **New!** Added options to ignore symlinked modules (@ben8p) #15
     - Added `followSymlink` configuration option.
