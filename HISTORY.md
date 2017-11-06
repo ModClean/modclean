@@ -1,5 +1,12 @@
 # ModClean History
 
+## 2.1.1 (11/6/2017)
+* **New!** Added options to ignore symlinked modules (@ben8p) #15
+    - Added `followSymlink` configuration option.
+    - Added `-f`, `--follow-symlink` CLI option.
+* Added `.eslintrc.yml` file to help enforce rules.
+* Minor cleanup
+
 ## 2.1.0 (1/17/2017)
 * Added `emptyDirFilter` configuration option.
 * Use `Object.assign` instead of `extend` module.
