@@ -10,7 +10,7 @@ ModClean is a utility that finds and removes unnecessary files and folders from 
 ## Why?
 There are a few different reasons why you would want to use ModClean:
 
-* **Commiting Modules.** Some evironments (especially Enterprise), it's required to commit the `node_modules` directory with your application into version control. This is due to compatibility, vetting and vunerability scanning rules for open source software. This can lead to issues with project size, checking out/pulling changes and the infamous 255 character path limit if you're unlucky enough to be on Windows or SVN.
+* **Commiting Modules.** Some environments (especially Enterprise), it's required to commit the `node_modules` directory with your application into version control. This is due to compatibility, vetting and vunerability scanning rules for open source software. This can lead to issues with project size, checking out/pulling changes and the infamous 255 character path limit if you're unlucky enough to be on Windows or SVN.
 * **Wasted space on your server.** Why waste space on your server with files not needed by you or the modules?
 * **Packaged applications.** If you're required to package your application, you can reduce the size of the package quickly by removing unneeded files.
 * **Compiled applications.** Other tools like, [NW.js](https://nwjs.io/) and [Electron](http://electron.atom.io/) make it easy to create cross-platform desktop apps, but depending on the modules, your app can become huge. Reduce down the size of the compiled application before shipping and make it faster for users to download.
