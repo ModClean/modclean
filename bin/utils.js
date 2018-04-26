@@ -3,7 +3,7 @@
  */
 "use strict";
 const readline = require('readline');
-const chalk    = require('chalk');
+const chalk = require('../dist/bundle').chalk;
 
 exports.warningMsg =
 `    This module deletes files from the filesystem and cannot be recovered. 
@@ -18,12 +18,12 @@ exports.warningMsg =
 
 exports.confirm = function(msg, cb) {
     process.stdin.setEncoding('utf8');
-    
+
     let rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
-    
+
     rl.question(msg + chalk.gray(' [y/N] '), function(answer) {
         rl.close();
         cb(/^y|yes|ok|true$/i.test(answer.trim()));
@@ -36,17 +36,17 @@ exports.initLog = function(verbose) {
         error: chalk.red.bold('ERROR'),
         info: ''
     };
-    
+
     if(verbose) {
         types.event = chalk.magenta.bold('EVENT');
         types.verbose = chalk.green.bold('VERBOSE');
     }
-    
+
     return function log(type, ...args) {
         if(!type) type = 'info';
         if(!types.hasOwnProperty(type)) return;
         let method = type === 'error'? 'error' : 'log';
-        
+
         args.unshift(types[type] + chalk.gray('>'));
         console[method](args.join(' '));
     };
