@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 "use strict";
 
-const chalk = require('chalk');
+const chalk = require('../dist/bundle').chalk;
 const program = require('commander');
 const notifier = require('update-notifier');
-const clui = require('clui');
+const clui = require('../dist/bundle').clui;
 const path = require('path');
 const os = require('os');
 const pkg = require('../package.json');

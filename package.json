@@ -7,6 +7,7 @@
     "modclean": "./bin/modclean.js"
   },
   "scripts": {
+    "build": "node ./node_modules/webpack/bin/webpack.js --env=prod --progress --profile --colors"
   },
   "repository": {
     "type": "git",
@@ -38,16 +39,22 @@
   "homepage": "https://github.com/ModClean/modclean",
   "dependencies": {
     "async-each-series": "^1.1.0",
-    "chalk": "^2.4.1",
-    "clui": "^0.3.1",
     "commander": "^2.9.0",
     "empty-dir": "^1.0.0",
-    "glob": "^7.1.1",
     "lodash.uniq": "^4.5.0",
     "modclean-patterns-default": "latest",
-    "rimraf": "^2.5.4",
     "subdirs": "^1.0.0",
     "update-notifier": "^2.5.0"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.1",
+    "clean-webpack-plugin": "0.1.19",
+    "clui": "^0.3.1",
+    "glob": "^7.1.1",
+    "rimraf": "^2.6.2",
+    "uglifyjs-webpack-plugin": "1.2.5",
+    "webpack": "4.6.0",
+    "webpack-cli": "^2.0.15"
   },
   "engines": {
     "node": ">=6.9.0"
