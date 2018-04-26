@@ -42,7 +42,7 @@
     "commander": "^2.9.0",
     "empty-dir": "^1.0.0",
     "lodash.uniq": "^4.5.0",
-    "modclean-patterns-default": "latest",
+    "modclean-patterns-default": "2.0.0",
     "subdirs": "^1.0.0"
   },
   "devDependencies": {
