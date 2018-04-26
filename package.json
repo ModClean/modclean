@@ -7,7 +7,6 @@
     "modclean": "./bin/modclean.js"
   },
   "scripts": {
-    "test": "npm install && mocha test.js"
   },
   "repository": {
     "type": "git",
