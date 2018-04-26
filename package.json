@@ -43,8 +43,7 @@
     "empty-dir": "^1.0.0",
     "lodash.uniq": "^4.5.0",
     "modclean-patterns-default": "latest",
-    "subdirs": "^1.0.0",
-    "update-notifier": "^2.5.0"
+    "subdirs": "^1.0.0"
   },
   "devDependencies": {
     "chalk": "^2.4.1",
