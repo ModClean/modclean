@@ -37,9 +37,7 @@
   },
   "homepage": "https://github.com/ModClean/modclean",
   "dependencies": {
-    "async-each-series": "^1.1.0",
     "chalk": "^1.1.3",
-    "clui": "^0.3.1",
     "commander": "^2.9.0",
     "empty-dir": "^0.2.1",
     "glob": "^7.1.1",
@@ -47,7 +45,6 @@
     "modclean-patterns-default": "latest",
     "rimraf": "^2.5.4",
     "subdirs": "^1.0.0",
-    "update-notifier": "^1.0.3"
   },
   "engines": {
     "node": ">=8.0.0"
