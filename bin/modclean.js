@@ -44,6 +44,7 @@ program
     .option('--no-dotfiles', 'Exclude dot files from being removed')
     .option('-k, --keep-empty', 'Keep empty directories')
     .option('-m, --modules', 'Delete modules that are matched by patterns')
+    .option('-l, --log', 'Output log files')
     .parse(process.argv);
 
 class ModClean_CLI {
@@ -94,6 +95,12 @@ class ModClean_CLI {
 
         // Disable progress bar in interactive mode
         if(program.interactive) program.progress = false;
+        
+        this.logs = {
+            deleted: [],
+            skipped: [],
+            errors: []
+        };
 
         let options = {
             cwd: program.path || process.cwd(),
@@ -189,6 +196,7 @@ class ModClean_CLI {
         inst.on('deleted', (file) => {
             updateProgress(this.stats.current, this.stats.total);
 
+            this.logs.skipped.push(file.fullPath);
             this.log(
                 'verbose',
                 `${chalk.yellow.bold('DELETED')} (${this.stats.current}/${this.stats.total}) ${chalk.gray(file)}`
@@ -199,6 +207,7 @@ class ModClean_CLI {
             this.log('event', 'beforeEmptyDirs');
 
             showSpinner(`Searching for empty directories in ${inst.options.cwd}...`);
+            this.logs.deleted.push(file.fullPath);
         });
 
         inst.on('emptyDirs', (dirs) => {
@@ -221,6 +230,7 @@ class ModClean_CLI {
             this.stats.currentEmpty += 1;
             updateProgress(this.stats.currentEmpty, this.stats.totalEmpty);
 
+            this.logs.deleted.push(dir);
             this.log(
                 'verbose',
                 `${chalk.yellow.bold('DELETED EMPTY DIR')} (${this.stats.currentEmpty}/${this.stats.totalEmpty}) ${chalk.gray(dir)}`
@@ -242,6 +252,11 @@ class ModClean_CLI {
         inst.on('fileError', (err) => {
             this.log('event', 'fileError');
             this.log('error', `${chalk.red.bold('FILE ERROR:')} ${err.error}\n${chalk.gray(err.file)}`);
+            this.logs.errors.push({
+                message: err.message,
+                method: err.method,
+                payload: err.payload
+            });
         });
 
         // Finish Event (once processing/deleting all files is complete)
@@ -262,6 +277,30 @@ class ModClean_CLI {
     }
 
     done(err, results) {
+    
+    async writeLogs() {
+        if(!program.log) return;
+        let writeFile = util.promisify(fs.writeFile);
+        
+        try {
+            await writeFile(path.join(process.cwd(), 'modclean-deleted.log'), JSON.stringify(this.logs.deleted));
+            await writeFile(path.join(process.cwd(), 'modclean-skipped.log'), JSON.stringify(this.logs.skipped));
+            await writeFile(path.join(process.cwd(), 'modclean-errors.log'), JSON.stringify(this.logs.errors));
+        } catch(e) {
+            console.error('Error while creating log files:');
+            console.error(e);
+        }
+        
+        return true;
+    }
+    
+    async fail(err) {
+        this.log('error', err);
+        
+        await this.writeLogs();
+        process.stdin.destroy();
+        return process.exit(1);
+    }
         console.log(
             "\n" + chalk.green.bold('FILES/FOLDERS DELETED') + "\n" +
             `    ${chalk.yellow.bold('Total:   ')} ${results.length}\n` +
@@ -279,6 +318,7 @@ class ModClean_CLI {
 
             process.exit(0);
         }, 500);
+        await this.writeLogs();
     }
 }
 
