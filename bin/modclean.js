@@ -32,7 +32,6 @@ program
     .option('-p, --path <path>', 'Path to run modclean on (defaults to current directory)')
     .option('-D, --modules-dir <name>', 'Modules directory name (defaults to "node_modules")')
     .option('-s, --case-sensitive', 'Matches are case sensitive')
-    .option('-i, --interactive', 'Each deleted file/folder requires confirmation')
     .option('-P, --no-progress', 'Hide progress bar')
     .option('-e, --error-halt', 'Halt script on error')
     .option('-v, --verbose', 'Run in verbose mode')
