@@ -1,5 +1,55 @@
 # ModClean History
 
+## 3.0.0-alpha.1 (5/10/2018)
+* Updated dependencies:
+    - `chalk` @ 2.4.1
+    - `empty-dir` @ 1.0.0
+    - `glob` @ 7.1.2
+    - `subdirs` @ 1.0.1
+* Removed dependencies:
+    - `async-each-series`
+    - `clui`
+    - `modclean-patterns-default`
+    - `update-notifier`
+* Added dependencies:
+    - `await-handler`
+    - `ora`
+    - `progress`
+    
+#### ModClean API Changes
+* **BREAKING:** Switch from callbacks to promises.
+* **BREAKING:** Utilizes async/await which will require Node 8+.
+* **BREAKING:** ModClean constructor no longer calls `clean()` by default, it must be manually called.
+* **BREAKING:** Stored errors in `errors` is now the pure `Error` with additional properties attached.
+* **BREAKING:** Renamed and namespaced most emitted events for clarity:
+    - `start` is now `clean:start`
+    - `complete` is now `clean:complete`
+    - `deleted` is now `file:deleted`
+    - `process` is now `file:list`
+    - `finish` is now `process:done`
+    - `beforeFind` is now `file:find`
+    - `beforeEmptyDirs` is now `emptydir:start`
+    - `afterEmptyDirs` is now `emptydir:done`
+    - `emptyDirs` is now `emptydir:list`
+    - `deletedEmptyDir` is now `emptydir:deleted`
+* **BREAKING:** Removed `finish` event.
+* **BREAKING:** Empty directory errors no longer emit event `emptyDirError`, but emit standard `error` event instead.
+* **BREAKING:** File deletion errors no longer emit event `fileError`, but emit standard `error` event instead.
+* **BREAKING:** `cleanEmptyDirs()` results are now an object containing `empty` (array of all empty directories) and `deleted` (array of all removed directories).
+* **BREAKING:** Files are now objects instead of strings. The new file objects contain more information about a file/directory being removed. _This does not apply to empty directories._
+* **BREAKING:** Removed `process` option in favor for new `filter` option.
+* **NEW:** Added `globOptions` to options object.
+* **NEW:** Added `filter` function to options object.
+* **NEW:** Added `skipModules` to options object. Will skip deletion of a directory if determined it is a module.
+* **NEW:** Added `file:skipped` event when a file/directory is skipped due to `filter` result.
+* **NEW:** Added `process:start` event when file processing starts.
+* **PERFORMANCE:** Reduced old and outdated dependencies to bring ModCleans dependency weight from over 9MB down to 1.2MB.
+* **PERFORMANCE:** Files are now deleted in parallel instead of series.
+
+#### ModClean CLI Changes
+* **BREAKING:** Removed `-i, --interactive` option. This option provided no real gain and added overhead which slows down the entire process. You should run in test mode if you want to see the files/folders being deleted prior.
+* **NEW:** Added `-l, --log` option. Outputs log files for deleted and skipped files along with errors in the current working directory on completion.
+
 ## 2.1.2 (11/6/2017)
 * Update package.json to use latest version of `modclean-patterns-default`
 
