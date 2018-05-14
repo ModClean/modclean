@@ -3,10 +3,7 @@
 
 const chalk = require('chalk');
 const program = require('commander');
-const notifier = require('update-notifier');
-const clui = require('clui');
 const path = require('path');
-const os = require('os');
 const pkg = require('../package.json');
 
 const utils = require('./utils');
