@@ -12,8 +12,6 @@ const utils = require('./utils');
 const modclean = require('../lib/modclean');
 const ModClean = modclean.ModClean;
 
-notifier({ pkg }).notify();
-
 function list(val) {
     return val.split(',');
 }
