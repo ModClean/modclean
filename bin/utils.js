@@ -3,7 +3,9 @@
  */
 "use strict";
 const readline = require('readline');
-const chalk    = require('chalk');
+const chalk = require('chalk');
+const ora = require('ora');
+const ProgressBar = require('progress');
 
 exports.warningMsg =
 `    This module deletes files from the filesystem and cannot be recovered. 
@@ -30,6 +32,17 @@ exports.confirm = function(msg, cb) {
     });
 };
 
+exports.progressBar = function(total) {
+    return new ProgressBar('[:bar] :percent (:current/:total) :etas', {
+        total: total,
+        incomplete: ' ',
+        width: 30
+    });
+};
+
+exports.spinner = function(msg) {
+    return ora(msg).start();
+};
 
 exports.initLog = function(verbose) {
     let types = {
