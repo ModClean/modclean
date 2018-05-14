@@ -43,6 +43,7 @@ program
     .option('--no-dirs', 'Exclude directories from being removed')
     .option('--no-dotfiles', 'Exclude dot files from being removed')
     .option('-k, --keep-empty', 'Keep empty directories')
+    .option('-m, --modules', 'Delete modules that are matched by patterns')
     .parse(process.argv);
 
 class ModClean_CLI {
@@ -122,6 +123,7 @@ class ModClean_CLI {
                     cb(res);
                 });
             }
+            skipModules: !program.modules
         };
 
         this.modclean = new ModClean(options);
