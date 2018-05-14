@@ -21,6 +21,9 @@ process.on('SIGINT', function() {
     process.exit();
 });
 
+// Add a space at the top
+console.log("\n");
+
 program
     .version(pkg.version)
     .description('Remove unwanted files and directories from your node_modules folder')
@@ -49,7 +52,6 @@ class ModClean_CLI {
 
         // Display CLI header
         console.log(
-            "\n" +
             chalk.yellow.bold('MODCLEAN ') +
             chalk.gray(' Version ' + pkg.version) + "\n"
         );
