@@ -3,7 +3,9 @@
 
 const chalk = require('chalk');
 const program = require('commander');
+const util = require('util');
 const path = require('path');
+const fs = require('fs');
 const pkg = require('../package.json');
 
 const utils = require('./utils');
