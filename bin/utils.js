@@ -14,9 +14,8 @@ exports.warningMsg =
     work correctly after running this script. You can easily restore your modules 
     by deleting your "node_modules" folder and running "npm install" again. If you 
     have any concerns with deleting files, you should run this utility with the 
-    "--test" flag first or with the "-i" flag to make the process interactive. The 
-    author or contributors shall not be held responsible for damages this module 
-    might cause. Please see the README for more information.\n\n`;
+    "--test" flag first. The author or contributors shall not be held responsible 
+    for damages this module might cause. Please see the README for more information.\n\n`;
 
 exports.confirm = function(msg, cb) {
     process.stdin.setEncoding('utf8');
