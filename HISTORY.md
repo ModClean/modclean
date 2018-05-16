@@ -1,5 +1,8 @@
 # ModClean History
 
+## 3.0.0-alpha.2 (5/16/2018)
+* **NEW:** Added `isDirectory` as a property of file objects.
+
 ## 3.0.0-alpha.1 (5/10/2018)
 * Updated dependencies:
     - `chalk` @ 2.4.1
