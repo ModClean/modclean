@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ModClean/modclean"
+    "url": "https://github.com/ModClean/modclean/tree/3.0.0-dev"
   },
   "keywords": [
     "module",
@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/ModClean/modclean/issues"
   },
-  "homepage": "https://github.com/ModClean/modclean",
+  "homepage": "https://github.com/ModClean/modclean/tree/3.0.0-dev",
   "dependencies": {
     "await-handler": "^1.1.0",
     "chalk": "^2.4.1",
