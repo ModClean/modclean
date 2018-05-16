@@ -1,8 +1,10 @@
 # ModClean History
 
+## 3.0.0-alpha.3 (5/16/2018)
+* **NEW:** Added `modclean.version` and `ModClean.version`.
+
 ## 3.0.0-alpha.2 (5/16/2018)
 * **NEW:** Added `isDirectory` as a property of file objects.
-* **NEW:** Added `modclean.version` and `ModClean.version`.
 
 ## 3.0.0-alpha.1 (5/10/2018)
 * Updated dependencies:
