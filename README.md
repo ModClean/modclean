@@ -3,9 +3,21 @@
 
 [![npm version](https://img.shields.io/npm/v/modclean.svg)](https://www.npmjs.com/package/modclean) ![NPM Dependencies](https://david-dm.org/ModClean/modclean.svg) [![NPM Downloads](https://img.shields.io/npm/dm/modclean.svg)](https://www.npmjs.com/package/modclean) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ModClean/modclean/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ModClean/modclean.svg)](https://github.com/ModClean/modclean/issues) [![Package Quality](http://npm.packagequality.com/shield/modclean.svg)](http://packagequality.com/#?package=modclean)
 
-### This documentation is for ModClean 2.x which requires Node v6.9+, if you need to support older versions, use [ModClean 1.3.0](https://github.com/ModClean/modclean/tree/1.x) instead.
+### This documentation is for ModClean 3.x which requires Node v6.9+, if you need to support older versions, use:
+**Node v6.9+:** [ModClean 2.x](https://github.com/ModClean/modclean/tree/2.x)  
+**Older:** [ModClean 1.x](https://github.com/ModClean/modclean/tree/1.x)
+
 
 ModClean is a utility that finds and removes unnecessary files and folders from your `node_modules` directory based on [predefined](https://github.com/ModClean/modclean-patterns-default) and [custom](https://github.com/ModClean/modclean/wiki/Custom-Pattern-Plugins) [glob](https://github.com/isaacs/node-glob) patterns. This utility comes with both a CLI and a programmatic API to provide customization for your environment. ModClean is used and tested in an Enterprise environment on a daily basis.
+
+## What's New in ModClean 3?
+This has been a complete overhaul of ModClean and the CLI to provide more performance and new features. With any major change, there have been a lot of breaking changes as well (see the [Migration Guide]() for more info). Here are some of the new notable features:
+
+1. **Moved away from callbacks to Promises.** With Promise support, ModClean utilizes async/await in order to have cleaner and more performant code.
+2. **New options for more customization.** Now you can customize ModClean more including options passed into `glob`.
+3. **NPM Module detection support.** ModClean now has the ability to detect if a matched directory is a NPM module and prevent deleting it. This allows stricter patterns without the worry of potentially deleting a module.
+4. **New event names.** Events are now properly named and namespaced for easier use and understanding.
+5. **Dependency reduction.** Reduced the dependencies and brought in newer and more usable dependencies that brought ModClean from over 9MBs to 1.2MB.
 
 ## Why?
 There are a few different reasons why you would want to use ModClean:
@@ -20,7 +32,7 @@ There are a few different reasons why you would want to use ModClean:
 The :cake: is a lie, but the [Benchmarks](https://github.com/ModClean/modclean/wiki/Benchmarks) are not.
 
 ## How?
-**New!** In ModClean 2.0.0, patterns are now provided by plugins instead of a static `patterns.json` file as part of the module. By default, ModClean comes with [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) installed, providing the same patterns as before. You now have the ability to create your own patterns plugins and use multiple plugins to clean your modules. This allows flexibility with both the programmatic API and CLI.
+**Note:** In ModClean 2+, patterns are now provided by plugins instead of a static `patterns.json` file as part of the module. By default, ModClean comes with [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) installed, providing the same patterns as before. You now have the ability to create your own patterns plugins and use multiple plugins to clean your modules. This allows flexibility with both the programmatic API and CLI.
 
 ModClean scans the `node_modules` directory of your choosing, finding all files and folders that match the defined patterns and deleting them. Both the CLI and the programmatic API provides all the options needed to customize this process to your requirements. Depending on the number of modules your app requires, files can be reduced anywhere from hundreds to thousands and disk space can be reduced considerably.
 
@@ -28,6 +40,8 @@ _(File and disk space reduction can also be different between the version of NPM
 
 **IMPORTANT**
 This module has been heavily tested in an enterprise environment used for large enterprise applications. The provided patterns in [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) have worked very well when cleaning up useless files in many popular modules. There are hundreds of thousands of modules in NPM and I cannot simply cover them all. If you are using ModClean for the first time on your application, you should create a copy of the application so you can ensure it still runs properly after running ModClean. The patterns are set in a way to ensure no crutial module files are removed, although there could be one-off cases where a module could be affected and that's why I am stressing that testing and backups are important. If you find any files that should be removed, please create a pull request to [modclean-patterns-default](https://github.com/ModClean/modclean-patterns-default) or create your own patterns plugin to share with the community.
+
+In ModClean 3+, module detection has been added. This will help prevent modules that have names matched by the patterns from being removed.
 
 ## Removal Benchmark
 So how well does this module work? If we `npm install sails` and run ModClean on it, here are the results:
