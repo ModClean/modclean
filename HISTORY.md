@@ -1,5 +1,8 @@
 # ModClean History
 
+## 3.0.0-alpha.4 (5/17/2018)
+* **FIX:** Fix typo that caused all directories to be marked as a module.
+
 ## 3.0.0-alpha.3 (5/16/2018)
 * **NEW:** Added `modclean.version` and `ModClean.version`.
 
