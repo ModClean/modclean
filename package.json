@@ -1,6 +1,6 @@
 {
   "name": "modclean",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "Remove unwanted files and directories from your node_modules folder",
   "main": "index.js",
   "bin": {

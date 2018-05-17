@@ -1,5 +1,8 @@
 # ModClean History
 
+## 3.0.0-alpha.5 (5/17/2018)
+* **IMPROVEMENT:** Better checking whether a directory is a module by ensuring the parent directory is equal to `options.modulesDir`.
+
 ## 3.0.0-alpha.4 (5/17/2018)
 * **FIX:** Fix typo that caused all directories to be marked as a module.
 
