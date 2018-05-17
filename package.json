@@ -25,7 +25,11 @@
     "limit",
     "less",
     "files",
-    "folders"
+    "folders",
+    "prune",
+    "cruft",
+    "delete",
+    "npm"
   ],
   "author": "Kyle Ross <thejavascriptguy@gmail.com>",
   "contributors": [
