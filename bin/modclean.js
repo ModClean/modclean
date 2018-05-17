@@ -6,7 +6,6 @@ const program = require('commander');
 const util = require('util');
 const path = require('path');
 const fs = require('fs');
-const pkg = require('../package.json');
 
 const utils = require('./utils');
 const modclean = require('../lib/modclean');
@@ -22,7 +21,7 @@ process.on('SIGINT', function() {
 });
 
 program
-    .version(pkg.version)
+    .version(modclean.version)
     .description('Remove unwanted files and directories from your node_modules folder')
     .usage('modclean [options]')
     .option('-t, --test', 'Run modclean and return results without deleting files')
