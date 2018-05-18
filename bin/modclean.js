@@ -53,7 +53,7 @@ class ModClean_CLI {
         // Display CLI header
         console.log(
             chalk.yellow.bold('MODCLEAN ') +
-            chalk.gray(' Version ' + pkg.version) + "\n"
+            chalk.gray(' Version ' + modclean.version) + "\n"
         );
 
         // Display "running in test mode" message
