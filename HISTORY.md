@@ -1,5 +1,8 @@
 # ModClean History
 
+## 3.0.0-alpha.6 (5/18/2018)
+* **FIX:** Fixed old variable reference in CLI (#24)
+
 ## 3.0.0-alpha.5 (5/17/2018)
 * **IMPROVEMENT:** Better checking whether a directory is a module by ensuring the parent directory is equal to `options.modulesDir`.
 
