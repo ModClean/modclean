@@ -1,7 +1,7 @@
 # ModClean
 *Remove unwanted files and directories from your node_modules folder*
 
-[![npm version](https://img.shields.io/npm/v/modclean.svg)](https://www.npmjs.com/package/modclean) ![NPM Dependencies](https://david-dm.org/ModClean/modclean.svg) [![NPM Downloads](https://img.shields.io/npm/dm/modclean.svg)](https://www.npmjs.com/package/modclean) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ModClean/modclean/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ModClean/modclean.svg)](https://github.com/ModClean/modclean/issues) [![Package Quality](http://npm.packagequality.com/shield/modclean.svg)](http://packagequality.com/#?package=modclean)
+[![npm version](https://img.shields.io/npm/v/modclean.svg)](https://www.npmjs.com/package/modclean) ![NPM Dependencies](https://david-dm.org/ModClean/modclean.svg) [![NPM Downloads](https://img.shields.io/npm/dm/modclean.svg)](https://www.npmjs.com/package/modclean) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ModClean/modclean/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ModClean/modclean.svg)](https://github.com/ModClean/modclean/issues) [![Package Quality](http://npm.packagequality.com/shield/modclean.svg)](http://packagequality.com/#?package=modclean) [![Greenkeeper badge](https://badges.greenkeeper.io/ModClean/modclean.svg)](https://greenkeeper.io/)
 
 ### This documentation is for ModClean 2.x which requires Node v6.9+, if you need to support older versions, use [ModClean 1.3.0](https://github.com/ModClean/modclean/tree/1.x) instead.
 
