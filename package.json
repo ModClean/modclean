@@ -41,16 +41,16 @@
   },
   "homepage": "https://github.com/ModClean/modclean/tree/3.0.0-dev",
   "dependencies": {
-    "await-handler": "^1.1.0",
+    "await-handler": "^1.1.2",
     "chalk": "^2.4.1",
-    "commander": "^2.9.0",
+    "commander": "^2.19.0",
     "empty-dir": "^1.0.0",
-    "glob": "^7.1.2",
+    "glob": "^7.1.3",
     "lodash.uniq": "^4.5.0",
     "modclean-patterns-default": "latest",
-    "ora": "^2.1.0",
+    "ora": "^3.0.0",
     "progress": "^2.0.0",
-    "rimraf": "^2.5.4",
+    "rimraf": "^2.6.2",
     "subdirs": "^1.0.1"
   },
   "engines": {
