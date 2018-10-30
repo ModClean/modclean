@@ -7,7 +7,7 @@
     "modclean": "./bin/modclean.js"
   },
   "scripts": {
-    "test": "npm install && mocha test.js"
+    "test": "./node_modules/.bin/mocha -S"
   },
   "repository": {
     "type": "git",
@@ -56,5 +56,12 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "engineStrict": true
+  "engineStrict": true,
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "fs-extra": "^6.0.1",
+    "get-folder-size": "^2.0.0",
+    "mocha": "^5.2.0",
+    "semver-regex": "^2.0.0"
+  }
 }
