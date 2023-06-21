@@ -47,7 +47,7 @@
     "modclean-patterns-default": "latest",
     "rimraf": "^2.5.4",
     "subdirs": "^1.0.0",
-    "update-notifier": "^1.0.3"
+    "update-notifier": "^6.0.0"
   },
   "engines": {
     "node": ">=6.9.0"
